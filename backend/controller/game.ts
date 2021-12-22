@@ -1,14 +1,14 @@
 import {Request, Response} from 'express';
 
-export function startGame(req: Request, res: Response) {
+export async function startGame(req: Request, res: Response): Promise<void> {
 
 }
 
-export function firstClick(req: Request, res: Response) {
+export async function firstClick(req: Request, res: Response): Promise<void> {
 
 }
 
-export function secondClick(req: Request, res: Response) {
+export async function secondClick(req: Request, res: Response): Promise<void> {
 
 }
 

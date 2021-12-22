@@ -1,18 +1,18 @@
 import {Request, Response} from 'express';
 
-export function joinRoom(req: Request, res: Response) {
+export async function joinRoom(req: Request, res: Response): Promise<void> {
 
 }
 
-export function listRooms(req: Request, res: Response) {
+export async function listRooms(req: Request, res: Response): Promise<void> {
 
 }
 
-export function createRoom(req: Request, res: Response) {
+export async function createRoom(req: Request, res: Response): Promise<void> {
 
 }
 
-export function leaveRoom(req: Request, res: Response) {
+export async function leaveRoom(req: Request, res: Response): Promise<void> {
 
 }
 
