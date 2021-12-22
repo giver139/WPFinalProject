@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import {UserToken, isUserToken} from './user_token';
 
 const SECRET_KEY = process.env.SECRET_KEY ?? '';
+const DEFAULT_EXPIRE_SECONDS = 86400;
 
 function hasAuth(headers: unknown): headers is {authorization: string} {
   return (headers as {authorization: string}).authorization !== undefined;
@@ -33,7 +34,7 @@ export function checkAuth(req: express.Request, res: express.Response, next: exp
   next();
 }
 
-export function generateToken(payload: UserToken, expireSeconds: number = 86400): string {
+export function generateToken(payload: UserToken, expireSeconds: number = DEFAULT_EXPIRE_SECONDS): string {
   const token = `Bearer ${jwt.sign(payload, SECRET_KEY, {expiresIn: expireSeconds})}`;
   return token;
 }

@@ -1,5 +1,5 @@
 import {Request, Response} from 'express';
-import {checkPassword} from '../user/password';
+import {checkPassword} from '../user/check_password';
 import {createUser} from '../user/create_user';
 import {generateToken} from './auth';
 import {UserToken, EMPTY_TOKEN} from './user_token';
@@ -38,7 +38,7 @@ export async function login(req: Request, res: Response): Promise<void> {
       return;
     }
   } catch(err: unknown) {
-    res.status(500).json({error: 'check password error'});
+    res.status(500).json({error: `check password error, ${err}`});
     return;
   }
   const payload: UserToken = {username};
@@ -53,12 +53,12 @@ export async function register(req: Request, res: Response): Promise<void> {
   }
   const {username, password, nickname} = req.body;
   try {
-    await createUser(username, password, nickname);
+    const newUser = await createUser(username, password, nickname);
+    res.json(newUser);
   } catch(err: unknown) {
-    res.status(500).json({error: 'register user error'});
+    res.status(500).json({error: `register user error, ${err}`});
     return;
   }
-  res.json({});
 }
 
 export async function logout(req: Request, res: Response): Promise<void> {
