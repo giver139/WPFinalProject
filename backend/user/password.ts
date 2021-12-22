@@ -1,3 +1,3 @@
-export function checkPassword(username: string, password: string): boolean {
+export async function checkPassword(username: string, password: string): Promise<boolean> {
   return true;
 }
