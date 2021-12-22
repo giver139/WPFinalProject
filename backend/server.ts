@@ -9,7 +9,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use(router);
+app.use('/api',router);
 
 const port = Number(process.env.PORT ?? 4000);
 app.listen(port,() => {});
