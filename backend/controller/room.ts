@@ -4,10 +4,10 @@ import {createRoom} from '../room/create_room';
 import {joinRoom} from '../room/join_room';
 import {getRooms} from '../room/get_rooms';
 import {leaveRoom} from '../room/leave_room';
-import {RoomNotFoundError, UserNotInRoomError} from '../room/error';
+import {RoomNotFoundError, UserNotInRoomError, UserAlreadyInRoomError} from '../room/error';
 import {isInteger} from '../utils';
 
-function hasRoomId(data: unknown): data is {roomId: number} {
+export function hasRoomId(data: unknown): data is {roomId: number} {
   const payload = data as {roomId: string};
   const roomId = Number(payload.roomId);
   if(!isInteger(roomId)) {
@@ -35,6 +35,9 @@ export async function enterRoom(req: Request, res: Response): Promise<void> {
     if(err instanceof RoomNotFoundError) {
       res.status(403).json({error: 'roomId not found'});
     }
+    else if(err instanceof UserAlreadyInRoomError) {
+      res.status(403).json({error: 'user already in the room'});
+    }
     else {
       res.status(500).json({error: 'join room error'});
     }
@@ -43,7 +46,7 @@ export async function enterRoom(req: Request, res: Response): Promise<void> {
 
 export async function listRooms(req: Request, res: Response): Promise<void> {
   try {
-    const rooms = getRooms();
+    const rooms = await getRooms();
     res.json({rooms});
   } catch(err: unknown) {
     res.status(500).json({error: 'get rooms error'});

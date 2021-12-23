@@ -15,3 +15,12 @@ export class UserNotInRoomError extends Error {
     Object.setPrototypeOf(this, UserNotInRoomError.prototype);
   }
 }
+
+export class UserAlreadyInRoomError extends Error {
+  name: string;
+  constructor() {
+    super('user already in the room');
+    this.name = 'UserAlreadyInRoomError';
+    Object.setPrototypeOf(this, UserAlreadyInRoomError.prototype);
+  }
+}

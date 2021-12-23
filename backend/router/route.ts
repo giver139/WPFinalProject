@@ -2,7 +2,7 @@ import express from 'express';
 import {checkAuth} from '../controller/auth';
 import {login, register, logout} from '../controller/user';
 import {enterRoom, listRooms, openRoom, exitRoom} from '../controller/room';
-import {startGame, firstClick, secondClick} from '../controller/game';
+import {roomStartGame, firstClick, secondClick} from '../controller/game';
 
 export const router = express.Router();
 
@@ -20,7 +20,7 @@ loginRouter.post('/joinRoom/:roomId', enterRoom);
 loginRouter.get('/allRooms', listRooms);
 loginRouter.post('/createRoom', openRoom);
 loginRouter.post('/leaveRoom/:roomId', exitRoom);
-loginRouter.post('/startGame/:roomId', startGame);
+loginRouter.post('/startGame/:roomId', roomStartGame);
 loginRouter.get('/firstClick', firstClick);
 loginRouter.post('/secondClick', secondClick);
 
