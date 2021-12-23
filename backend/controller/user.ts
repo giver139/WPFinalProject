@@ -1,6 +1,7 @@
 import {Request, Response} from 'express';
 import {checkPassword} from '../user/check_password';
 import {createUser} from '../user/create_user';
+import {getUserByName} from '../user/get_user_by_name';
 import {generateToken} from './auth';
 import {UserToken, EMPTY_TOKEN} from './user_token';
 import {UserNotFoundError, InvalidInformationError, UserExistedError} from '../user/error';
@@ -49,7 +50,12 @@ export async function login(req: Request, res: Response): Promise<void> {
   }
   const payload: UserToken = {username};
   const token = generateToken(payload);
-  res.json({token});
+  try {
+    const user = await getUserByName(username);
+    res.json({user, token});
+  } catch(err: unknown) {
+    res.status(500).json({error: 'get user error'});
+  }
 }
 
 export async function register(req: Request, res: Response): Promise<void> {
@@ -60,7 +66,7 @@ export async function register(req: Request, res: Response): Promise<void> {
   const {username, password, nickname} = req.body;
   try {
     const newUser = await createUser(username, password, nickname);
-    res.json(newUser);
+    res.json({user: newUser});
   } catch(err: unknown) {
     if(err instanceof InvalidInformationError) {
       res.status(403).json({error: 'user information must not be empty'});
@@ -71,7 +77,6 @@ export async function register(req: Request, res: Response): Promise<void> {
     else {
       res.status(500).json({error: `create user error, ${err}`});
     }
-    return;
   }
 }
 

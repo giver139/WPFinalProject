@@ -12,5 +12,5 @@ const schema = new Schema<User>({
   nickname: {type: String, required: true},
 });
 
-export const userModel = model<User>('User', schema);
-export default userModel;
+export const UserModel = model<User>('User', schema);
+export default UserModel;
