@@ -16,3 +16,21 @@ export class PlayerNumberUnmatchError extends Error {
   }
 }
 
+export class GameNotFoundError extends Error {
+  name: string;
+  constructor() {
+    super('gameId not found');
+    this.name = 'GameNotFoundError';
+    Object.setPrototypeOf(this, GameNotFoundError.prototype);
+  }
+}
+
+export class UserNotInGameError extends Error {
+  name: string;
+  constructor() {
+    super('user not in the game');
+    this.name = 'UserNotInGameError';
+    Object.setPrototypeOf(this, UserNotInGameError.prototype);
+  }
+}
+

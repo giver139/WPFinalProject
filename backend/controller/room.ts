@@ -18,16 +18,16 @@ export function hasRoomId(data: unknown): data is {roomId: number} {
 }
 
 export async function enterRoom(req: Request, res: Response): Promise<void> {
-  if(!hasRoomId(req.params)) {
-    res.status(403).json({error: 'invalid roomId'});
-    return;
-  }
-  const roomId = req.params.roomId;
   if(!hasUserToken(req)) {
     res.status(500).json({error: 'user token not found'});
     return;
   }
   const user = req.user;
+  if(!hasRoomId(req.params)) {
+    res.status(403).json({error: 'invalid roomId'});
+    return;
+  }
+  const roomId = req.params.roomId;
   try {
     const room = await joinRoom(user.username, roomId);
     res.json({room});
@@ -68,16 +68,16 @@ export async function openRoom(req: Request, res: Response): Promise<void> {
 }
 
 export async function exitRoom(req: Request, res: Response): Promise<void> {
-  if(!hasRoomId(req.params)) {
-    res.status(403).json({error: 'invalid roomId'});
-    return;
-  }
-  const roomId = req.params.roomId;
   if(!hasUserToken(req)) {
     res.status(500).json({error: 'user token not found'});
     return;
   }
   const user = req.user;
+  if(!hasRoomId(req.params)) {
+    res.status(403).json({error: 'invalid roomId'});
+    return;
+  }
+  const roomId = req.params.roomId;
   try {
     await leaveRoom(user.username, roomId);
     res.json({});

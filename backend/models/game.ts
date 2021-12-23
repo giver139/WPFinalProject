@@ -6,6 +6,8 @@ export interface Game {
   gameId: number;
   players: string[];
   timestamp: Date;
+  blackPlayer: number;
+  board: number[];
 }
 
 export interface MongoGame extends Game {
@@ -15,7 +17,9 @@ export interface MongoGame extends Game {
 const schema = new Schema<MongoGame>({
   gameId: {type: Number, required: true},
   players: {type: [String], required: true},
-  timestamp: {type: Date, required: true}
+  timestamp: {type: Date, required: true},
+  blackPlayer: {type: Number, required: true},
+  board: {type: [Number], required: true}
 });
 
 export const GameModel = model<MongoGame>('Game', schema);

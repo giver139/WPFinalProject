@@ -21,6 +21,6 @@ loginRouter.get('/allRooms', listRooms);
 loginRouter.post('/createRoom', openRoom);
 loginRouter.post('/leaveRoom/:roomId', exitRoom);
 loginRouter.post('/startGame/:roomId', roomStartGame);
-loginRouter.get('/firstClick', firstClick);
-loginRouter.post('/secondClick', secondClick);
+loginRouter.get('/firstClick/:gameId', firstClick);
+loginRouter.post('/secondClick/:gameId', secondClick);
 

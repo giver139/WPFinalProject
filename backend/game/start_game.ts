@@ -19,7 +19,7 @@ export async function startGame(roomId: number): Promise<GameView> {
   if(room.players.length !== 2) {
     throw new PlayerNumberUnmatchError;
   }
-  const newGame = new GameModel({gameId, players: [...room.players], timestamp: Date.now()});
+  const newGame = new GameModel({gameId, players: [...room.players], timestamp: Date.now(), firstMove: 0, board: []});
   await room.remove();
   await gameCounter.save();
   await newGame.save();
