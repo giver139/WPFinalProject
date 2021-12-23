@@ -3,6 +3,7 @@ import {checkPassword} from '../user/check_password';
 import {createUser} from '../user/create_user';
 import {generateToken} from './auth';
 import {UserToken, EMPTY_TOKEN} from './user_token';
+import {UserNotFoundError, InvalidInformationError, UserExistedError} from '../user/error';
 
 interface LoginPayload {
   username: string;
@@ -38,7 +39,12 @@ export async function login(req: Request, res: Response): Promise<void> {
       return;
     }
   } catch(err: unknown) {
-    res.status(500).json({error: `check password error, ${err}`});
+    if(err instanceof UserNotFoundError) {
+      res.status(403).json({error: 'incorrect username or password'});
+    }
+    else {
+      res.status(500).json({error: `check password error, ${err}`});
+    }
     return;
   }
   const payload: UserToken = {username};
@@ -56,7 +62,15 @@ export async function register(req: Request, res: Response): Promise<void> {
     const newUser = await createUser(username, password, nickname);
     res.json(newUser);
   } catch(err: unknown) {
-    res.status(500).json({error: `register user error, ${err}`});
+    if(err instanceof InvalidInformationError) {
+      res.status(403).json({error: 'user information must not be empty'});
+    }
+    else if(err instanceof UserExistedError) {
+      res.status(403).json({error: 'username already exists'});
+    }
+    else {
+      res.status(500).json({error: `create user error, ${err}`});
+    }
     return;
   }
 }
