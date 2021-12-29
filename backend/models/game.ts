@@ -7,11 +7,14 @@ export interface Game {
   players: string[];
   timestamp: Date;
   blackPlayer: number;
+  initialBoard: number[];
   board: number[];
 }
 
 export interface MongoGame extends Game {
   players: Types.Array<string>;
+  initialBoard: Types.Array<number>;
+  board: Types.Array<number>;
 };
 
 const schema = new Schema<MongoGame>({
@@ -19,7 +22,8 @@ const schema = new Schema<MongoGame>({
   players: {type: [String], required: true},
   timestamp: {type: Date, required: true},
   blackPlayer: {type: Number, required: true},
-  board: {type: [Number], required: true}
+  initialBoard: {type: [Number], required: true},
+  board: {type: [Number], required: true},
 });
 
 export const GameModel = model<MongoGame>('Game', schema);

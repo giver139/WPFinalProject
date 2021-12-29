@@ -1,9 +1,9 @@
 import {GameNotFoundError, UserNotInGameError} from '../game/error';
 import {GameModel} from '../models/game';
 import {getValidDestinations} from '../board/get_valid_destinations';
-import {Color} from '../board/models';
+import {Color, Move} from '../board/models';
 
-export async function getValidMovesFromSource(username: string, gameId: number, source: number): Promise<number[]> {
+export async function getValidMovesFromSource(username: string, gameId: number, source: number): Promise<Move[]> {
   const game = await GameModel.findOne({gameId});
   if(!game) {
     throw new GameNotFoundError;
