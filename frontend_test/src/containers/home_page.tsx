@@ -1,5 +1,21 @@
+import {useEffect} from 'react';
 import {usePage} from '../hooks/use_page';
+import {useNavigate} from 'react-router-dom';
 
 export function HomePage() {
-  return (<h1>home</h1>);
+  const {user, relogin} = usePage();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(!user) {
+      relogin();
+    }
+  }, []);
+
+  return (
+    <div>
+      <h1>Home</h1>
+      <input type="button" value="player v.s. player" onClick={() => {navigate("/main");}} />
+    </div>
+  );
 }
