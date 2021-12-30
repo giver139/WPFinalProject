@@ -1,6 +1,8 @@
 import {InvalidSourceSelectionError, NoPossibleDestinationError} from './error';
-import {Color} from '../board/models';
+import {Color, Move, Position, Board} from '../board/models';
+import {Game} from '../models/game';
 
-export function getValidDestinations(board: readonly number[], color: Color, source: number): number[] {
+export function getValidDestinations(game: Readonly<Game>, color: Color, source: Position): Move[] {
+  const board = new Board(game.board);
   return [];
 }

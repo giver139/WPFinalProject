@@ -1,7 +1,9 @@
 import {InvalidSourceSelectionError, InvalidDestinationSelectionError} from './error';
 import {Game} from '../models/game';
-import {Color, Move} from '../board/models';
+import {Color, Move, toMove, Board} from '../board/models';
 
-export function makeMove(game: Game, color: Color, source: number, destination: number): Move {
-  return {source: '', destination: ''};
+export function makeMove(game: Game, color: Color, move: Move): Move {
+  const board = new Board(game.board);
+
+  return toMove(0,0);
 }

@@ -1,7 +1,7 @@
 import {GameNotFoundError, UserNotInGameError} from '../game/error';
 import {GameModel} from '../models/game';
 import {makeMove} from '../board/make_move';
-import {Color} from '../board/models';
+import {Color, toMove} from '../board/models';
 import {GameView} from '../views/game';
 import {MoveView} from '../views/move';
 import {WebSocketConnection} from '../websocket/web_socket_connection';
@@ -16,7 +16,7 @@ export async function confirmMove(username: string, gameId: number, source: numb
     throw new UserNotInGameError;
   }
   const color = (game.blackPlayer === index ? Color.BLACK : Color.RED);
-  const move = makeMove(game, color, source, destination);
+  const move = makeMove(game, color, toMove(source, destination));
   await game.save();
   WebSocketConnection.broadcastMakeMove(gameId, new GameView(game), new MoveView(move));
 }

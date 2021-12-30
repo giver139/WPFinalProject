@@ -25,3 +25,21 @@ export class InvalidDestinationSelectionError extends Error {
   }
 }
 
+export class InvalidPositionError extends Error {
+  name: string;
+  constructor() {
+    super('invalid position');
+    this.name = 'InvalidPositionError';
+    Object.setPrototypeOf(this, InvalidPositionError.prototype);
+  }
+}
+
+export class InvalidChessNoError extends Error {
+  name: string;
+  constructor() {
+    super('invalid chess no');
+    this.name = 'InvalidChessNoError';
+    Object.setPrototypeOf(this, InvalidChessNoError.prototype);
+  }
+}
+
