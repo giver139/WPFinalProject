@@ -7,22 +7,21 @@ import {JoinRoomButton} from '../components/join_room_button';
 import {Room} from '../models';
 
 async function getRooms(): Promise<Room[]> {
-  const rooms = await api.get('/api/allRooms');
-  console.log(rooms);
-  return [] as Room[];
+  const {data} = await api.get('/allRooms');
+  return data.rooms as Room[];
 }
 
 export function MainPage() {
-  const {user, relogin} = usePage();
+  const {user, relogin, setRoom} = usePage();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if(!user) {
-      relogin();
-    }
-  }, []);
-
   const {data, error, isPending} = useAsync({promiseFn: getRooms});
+
+  const createRoom = async () => {
+    const {data} = await api.post('/createRoom');
+    setRoom(() => data.room);
+    navigate(`/room`);
+  }
 
   if(isPending) {
     return (<div>Loading...</div>);
@@ -34,6 +33,7 @@ export function MainPage() {
     return (
       <div>
         <h1>Main</h1>
+        <input type="button" value="create room" onClick={createRoom} />
         {data.map((room) => (<JoinRoomButton room={room} key={room.roomId} />))}
       </div>
     );

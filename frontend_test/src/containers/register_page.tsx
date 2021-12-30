@@ -3,30 +3,24 @@ import {useNavigate} from 'react-router-dom';
 import {usePage} from '../hooks/use_page';
 import {api} from '../api';
 
-export function LoginPage() {
+export function RegisterPage() {
   const [username, setUsername] = useState<string>('');
+  const [nickname, setNickname] = useState<string>('');
   const passwordRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   
-  const login = async () => {
+  const register = async () => {
     const password = passwordRef.current?.value ?? '';
-    if(username === '' || password === '') {
-      throw new Error('username and password must not be empty');
+    if(username === '' || password === '' || nickname === '') {
+      throw new Error('username, password, and nickname must not be empty');
     }
-    const {data} = await api.post('/login', {username, password});
-    console.log(data);
-    const token = data.token;
-    if(!token.startsWith('Bearer ')) {
-      throw new Error('invalid token format');
-    }
-    setUsername(() => data.user.username);
-    localStorage.setItem('user', token.slice(7));
-    navigate('/home');
+    await api.post('/register', {username, password, nickname});
+    navigate('/login');
   };
 
   return (
     <div>
-      <h1>login</h1>
+      <h1>register</h1>
       <div>
         <label>username: </label>
         <input onChange={(event) => {setUsername(() => (event.target as HTMLInputElement).value);}} />
@@ -36,7 +30,11 @@ export function LoginPage() {
         <input type="password" ref={passwordRef} />
       </div>
       <div>
-        <input type="button" onClick={login} value="login" />
+        <label>nickname: </label>
+        <input onChange={(event) => {setNickname(() => (event.target as HTMLInputElement).value);}} />
+      </div>
+      <div>
+        <input type="button" onClick={register} value="register" />
       </div>
     </div>
   );

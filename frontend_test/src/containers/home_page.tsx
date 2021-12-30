@@ -6,12 +6,6 @@ export function HomePage() {
   const {user, relogin} = usePage();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if(!user) {
-      relogin();
-    }
-  }, []);
-
   return (
     <div>
       <h1>Home</h1>
