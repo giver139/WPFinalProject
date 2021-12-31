@@ -9,6 +9,10 @@ export function isInteger(value: number): boolean {
   return Math.floor(value) === value;
 }
 
-function assertUnreachable(arg: never): never {
+export function assertUnreachable(arg: never): never {
     throw new Error("Unexpected behavior.");
+}
+
+export function sleep(miliseconds: number): Promise<void> {
+  return new Promise((resolve) => {setTimeout(resolve, miliseconds);});
 }

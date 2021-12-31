@@ -1,9 +1,10 @@
 import {GameNotFoundError, UserNotInGameError} from '../game/error';
 import {GameModel} from '../models/game';
 import {getValidDestinations} from '../board/get_valid_destinations';
-import {Color} from '../board/models';
+import {Color, Move, toPosition} from '../board/models';
+import {MoveView} from '../views/board';
 
-export async function getValidMovesFromSource(username: string, gameId: number, source: number): Promise<number[]> {
+export async function getValidMovesFromSource(username: string, gameId: number, source: number): Promise<MoveView[]> {
   const game = await GameModel.findOne({gameId});
   if(!game) {
     throw new GameNotFoundError;
@@ -13,5 +14,5 @@ export async function getValidMovesFromSource(username: string, gameId: number, 
     throw new UserNotInGameError;
   }
   const color = (game.blackPlayer === index ? Color.BLACK : Color.RED);
-  return getValidDestinations(game.board, color, source);
+  return getValidDestinations(game, color, toPosition(source)).map((move: Move) => new MoveView(move));
 }

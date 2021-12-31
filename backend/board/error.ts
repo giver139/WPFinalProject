@@ -25,3 +25,39 @@ export class InvalidDestinationSelectionError extends Error {
   }
 }
 
+export class InvalidPositionError extends Error {
+  name: string;
+  constructor() {
+    super('invalid position');
+    this.name = 'InvalidPositionError';
+    Object.setPrototypeOf(this, InvalidPositionError.prototype);
+  }
+}
+
+export class InvalidChessNoError extends Error {
+  name: string;
+  constructor() {
+    super('invalid chess no');
+    this.name = 'InvalidChessNoError';
+    Object.setPrototypeOf(this, InvalidChessNoError.prototype);
+  }
+}
+
+export class InvalidSourceSelectionInCanMoveOneStepError extends Error {
+  name: string;
+  constructor() {
+    super('invalid soucre selection in canBeat() function');
+    this.name = 'InvalidSourceSelectionInCanMoveOneStepError';
+    Object.setPrototypeOf(this, InvalidSourceSelectionInCanMoveOneStepError.prototype);
+  }
+}
+
+export class FlipChessError extends Error {
+  name: string;
+  constructor() {
+    super('invalid chess in flipChess() function');
+    this.name = 'FlipChessError';
+    Object.setPrototypeOf(this, FlipChessError.prototype);
+  }
+}
+

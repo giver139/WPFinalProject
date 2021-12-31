@@ -6,7 +6,7 @@ import {UserToken, isUserToken} from './user_token';
 const SECRET_KEY = process.env.SECRET_KEY ?? '';
 const DEFAULT_EXPIRE_SECONDS = 86400;
 
-function hasAuth(headers: unknown): headers is {authorization: string} {
+export function hasAuth(headers: unknown): headers is {authorization: string} {
   return (headers as {authorization: string}).authorization !== undefined;
 }
 
@@ -15,14 +15,9 @@ export function checkAuth(req: express.Request, res: express.Response, next: exp
     res.status(401).json({error: 'no authorization token'});
     return;
   }
-  let token = req.headers.authorization;
-  if(!token.startsWith('Bearer ')) {
-    res.status(401).json({error: 'invalid token format'});
-    return;
-  }
-  token = token.slice(7);
   try {
-    const jwtPayload = jwt.verify(token, SECRET_KEY);
+    const token = req.headers.authorization;
+    const jwtPayload = readToken(token);
     if(!isUserToken(jwtPayload)) {
       throw new Error('invalid token content');
     }
@@ -32,6 +27,14 @@ export function checkAuth(req: express.Request, res: express.Response, next: exp
     return;
   }
   next();
+}
+
+export function readToken(token: string): unknown {
+  if(!token.startsWith('Bearer ')) {
+    throw new Error('invalid token format');
+  }
+  token = token.slice(7);
+  return jwt.verify(token, SECRET_KEY);
 }
 
 export function generateToken(payload: UserToken, expireSeconds: number = DEFAULT_EXPIRE_SECONDS): string {
