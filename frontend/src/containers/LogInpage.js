@@ -3,6 +3,7 @@ import {Button, Input} from 'antd';
 import Title from '../components/Title';
 import Username from '../components/Username';
 import ConfirmButton from '../components/ConfirmButton';
+import {loginApi} from '../api';
 
 const LogInpage = () => {
 
@@ -11,6 +12,17 @@ const LogInpage = () => {
     backgroundSize: 'cover',
     height: '675px',
   };
+
+  const handleOnClick = async () => {
+    if(username !== "" && password !== "") {
+      try {
+        const {user} = await loginApi({username, password});
+      } catch(error) {
+        // handle error
+      }
+      // set login state
+    }
+  }
 
   return (
     <div className='LogInpage' style = {myStyle}>
