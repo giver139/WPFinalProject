@@ -47,8 +47,17 @@ export class InvalidSourceSelectionInCanMoveOneStepError extends Error {
   name: string;
   constructor() {
     super('invalid soucre selection in canBeat() function');
-    this.name = 'InvalidSourceSelectionError';
+    this.name = 'InvalidSourceSelectionInCanMoveOneStepError';
     Object.setPrototypeOf(this, InvalidSourceSelectionInCanMoveOneStepError.prototype);
+  }
+}
+
+export class FlipChessError extends Error {
+  name: string;
+  constructor() {
+    super('invalid chess in flipChess() function');
+    this.name = 'FlipChessError';
+    Object.setPrototypeOf(this, FlipChessError.prototype);
   }
 }
 

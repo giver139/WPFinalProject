@@ -16,7 +16,7 @@ export async function confirmMove(username: string, gameId: number, source: numb
     throw new UserNotInGameError;
   }
   const color = (game.blackPlayer === index ? Color.BLACK : Color.RED);
-  const move = makeMove(game, color, toMove(source, destination));
+  const move = makeMove(game, color, toMove(source, destination), username);
   await game.save();
   WebSocketConnection.broadcastMakeMove(gameId, new GameView(game), new MoveView(move));
 }

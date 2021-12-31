@@ -38,7 +38,7 @@ export enum ChessNo {
 export interface ChessType {
   readonly color: Color;
   readonly type: Type;
-  readonly chessNo: ChessNo;
+  chessNo: ChessNo;
 }
 
 function toChessType(chessNo: number): ChessType {
@@ -99,7 +99,11 @@ export function toMove(source: number, destination: number): Move {
 }
 
 export class Chess {
-  constructor(readonly chessType: ChessType, readonly position: Position) {
+  chessType: ChessType;
+  position: Position;
+  constructor(chessType: ChessType, position: Position) {
+    this.chessType = chessType;
+    this.position = position;
   }
   get color(): Color {
     return this.chessType.color;
