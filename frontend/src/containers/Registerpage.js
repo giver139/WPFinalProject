@@ -4,6 +4,7 @@ import Title from '../components/Title';
 import Username from '../components/Username';
 import ConfirmButton from '../components/ConfirmButton';
 import Homepage from './Homepage';
+import {registerApi} from '../api';
 
 const Registerpage = () => {
   const [username, setUsername] = useState("");
@@ -18,8 +19,13 @@ const Registerpage = () => {
     height: '675px',
   };
 
-  const handleOnClick = () => {
+  const handleOnClick = async () => {
     if(username !== "" && password !== "" && nickname !== "") {
+      try {
+        const {user} = await registerApi({username, password, nickname});
+      } catch(error) {
+        // handle error
+      }
       setRegistered(true);
     }
   }
