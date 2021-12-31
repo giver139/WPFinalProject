@@ -4,14 +4,18 @@ import Title from '../components/Title';
 import Register from '../components/Register';
 import LogIn from '../components/LogIn';
 import Registerpage from './Registerpage';
+import LogInpage from './LogInpage';
 
 const Homepage = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
   const [registered, setRegistered] = useState(false);
-  const [username, setUsername] = useState("");
+  const [loggedIn, setLoggedIn] = useState(false);
 
-  const RegisterOnClick = () => {
+  const handleRegistered = () => {
     setRegistered(true);
+  };
+
+  const handleLoggedIn = () => {
+    setLoggedIn(true);
   }
 
   const myStyle = {
@@ -20,20 +24,27 @@ const Homepage = () => {
     height: '675px',
   };
 
-  return (
+  if(registered) {
+    return (<Registerpage></Registerpage>)
+  }
+  else if(loggedIn) {
+    return (<LogInpage></LogInpage>)
+  }
+  
+  else {
+    return (  
     <div className='homepage' style={myStyle}>
-      <Title>
-        <h1>暗棋遊戲</h1>
-      </Title>
-      <Register>
-        <Button onClick={RegisterOnClick}>Register</Button>
-        {registered ? <Registerpage/> : <Homepage/>}
-      </Register>
-      <LogIn>
-        <Button>Log in</Button>
-      </LogIn>
-    </div>
-  );
+    <Title>
+      <h1>暗棋遊戲</h1>
+    </Title>
+    <Register>
+      <Button onClick={handleRegistered}>Register</Button>
+    </Register>
+    <LogIn>
+      <Button onClick={handleLoggedIn}>Log in</Button>
+    </LogIn>
+  </div>)
+  };
 };
 
 export default Homepage;
