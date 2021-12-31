@@ -4,7 +4,8 @@ import {Color, Move, toMove, Board, ChessNo} from '../board/models';
 import {checkFirstMoveBoard, flipChess} from '../board/helper'
 
 export function makeMove(game: Game, color: Color, move: Move, username: string): Move {
-  const board = new Board(game.board);
+  let board = new Board(game.board);
+  let initBoard = new Board(game.initialBoard);
   if (checkFirstMoveBoard(board)) {
     // find out the real black player
     color = board.board[move.source.index].color;
@@ -17,7 +18,7 @@ export function makeMove(game: Game, color: Color, move: Move, username: string)
   }
   if (move.source === move.destination) {
     // flip
-    board.board[move.source.index] = flipChess(board.board[move.source.index]);
+    board.board[move.source.index] = flipChess(initBoard.board[move.source.index]);
   }
   else {
     // move
