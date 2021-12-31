@@ -22,7 +22,7 @@ export async function startGame(roomId: number): Promise<GameView> {
     throw new PlayerNumberUnmatchError;
   }
   const newBoard = getInitialBoard();
-  const newGame = new GameModel({gameId, players: [...room.players], timestamp: Date.now(), firstMove: getFirstMove(), ...newBoard});
+  const newGame = new GameModel({gameId, players: [...room.players], timestamp: Date.now(), firstMove: getFirstMove(), ...newBoard, noFlipEatCount: 0});
   await room.remove();
   await gameCounter.save();
   await newGame.save();

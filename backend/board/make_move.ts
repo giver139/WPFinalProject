@@ -19,9 +19,16 @@ export function makeMove(game: Game, color: Color, move: Move, username: string)
   if (move.source === move.destination) {
     // flip
     board.board[move.source.index] = flipChess(initBoard.board[move.source.index]);
+    game.noFlipEatCount = 0;
   }
   else {
     // move
+    if (board.board[move.destination.index].color !== color) {
+      game.noFlipEatCount = 0;
+    }
+    else {
+      game.noFlipEatCount++;
+    }
     board.board[move.destination.index] = board.board[move.source.index];
     board.board[move.source.index].chessType.chessNo = ChessNo.EMPTY;
   }

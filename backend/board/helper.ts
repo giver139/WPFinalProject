@@ -1,6 +1,6 @@
-import {isInteger} from '../utils';
 import {InvalidSourceSelectionInCanMoveOneStepError, FlipChessError} from './error';
 import {Chess, ChessNo, Type, Position, toPosition, Board, Color} from '../board/models';
+import {Game} from '../models/game';
 
 export function canMoveOneStep(source: Chess, destination: Chess): Boolean {
   if (source.chessNo === ChessNo.EMPTY || source.chessNo === ChessNo.COVERED) {
@@ -126,5 +126,16 @@ export function checkPlayerLose(board: Board, color: Color): Boolean {
     }
   }
   return true;
+}
+
+const MAX_NO_FLIP_EAT = 50;
+
+export function isTie(game: Game): Boolean {
+  if (game.noFlipEatCount >= MAX_NO_FLIP_EAT) {
+    return true;
+  }
+  else {
+    return false;
+  }
 }
 

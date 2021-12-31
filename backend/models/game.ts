@@ -9,6 +9,7 @@ export interface Game {
   blackPlayer: number;
   initialBoard: number[];
   board: number[];
+  noFlipEatCount: number;
 }
 
 export interface MongoGame extends Game {
@@ -24,6 +25,7 @@ const schema = new Schema<MongoGame>({
   blackPlayer: {type: Number, required: true},
   initialBoard: {type: [Number], required: true},
   board: {type: [Number], required: true},
+  noFlipEatCount: {type: Number, required: true},
 });
 
 export const GameModel = model<MongoGame>('Game', schema);
