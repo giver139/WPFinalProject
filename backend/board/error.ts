@@ -43,3 +43,12 @@ export class InvalidChessNoError extends Error {
   }
 }
 
+export class InvalidSourceSelectionInCanMoveOneStepError extends Error {
+  name: string;
+  constructor() {
+    super('invalid soucre selection in canBeat() function');
+    this.name = 'InvalidSourceSelectionError';
+    Object.setPrototypeOf(this, InvalidSourceSelectionInCanMoveOneStepError.prototype);
+  }
+}
+
