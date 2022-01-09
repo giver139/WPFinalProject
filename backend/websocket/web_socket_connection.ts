@@ -76,13 +76,13 @@ export class WebSocketConnection {
   static broadcastStartGame(roomId: number, game: GameView): void {
     const targets = WebSocketConnection.connections.filter((connection) => connection.state === ConnectionState.ROOM && connection.id === roomId);
     for(const connection of targets) {
-      connection.sendData({type: OperationType.JOIN_ROOM, game});
+      connection.sendData({type: OperationType.START_GAME, game});
     }
   }
   static broadcastMakeMove(gameId: number, game: GameView, move: MoveView): void {
     const targets = WebSocketConnection.connections.filter((connection) => connection.state === ConnectionState.GAME && connection.id === gameId);
     for(const connection of targets) {
-      connection.sendData({type: OperationType.JOIN_ROOM, game, move});
+      connection.sendData({type: OperationType.MAKE_MOVE, game, move});
     }
   }
 
