@@ -30,7 +30,7 @@ function isRegisterPayload(data: unknown): data is RegisterPayload {
 
 export async function login(req: Request, res: Response): Promise<void> {
   if(!isLoginPayload(req.body)) {
-    res.status(403).json({error: 'incorrect payload'});
+    res.status(403).json({error: 'invalid payload'});
     return;
   }
   const {username, password} = req.body;
@@ -60,7 +60,7 @@ export async function login(req: Request, res: Response): Promise<void> {
 
 export async function register(req: Request, res: Response): Promise<void> {
   if(!isRegisterPayload(req.body)) {
-    res.status(403).json({error: 'incorrect payload'});
+    res.status(403).json({error: 'invalid payload'});
     return;
   }
   const {username, password, nickname} = req.body;

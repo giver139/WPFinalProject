@@ -107,10 +107,10 @@ export async function firstClick(req: Request, res: Response): Promise<void> {
     res.json({destination: moves});
   } catch(err: unknown) {
     if(err instanceof InvalidSourceSelectionError) {
-      res.status(403).json({error: 'invalid source selection error'});
+      res.status(403).json({error: 'invalid source selection'});
     }
     else if(err instanceof NoPossibleDestinationError) {
-      res.status(403).json({error: 'no possible destination for selected sourceition error'});
+      res.status(403).json({error: 'no possible destination'});
     }
     else {
       res.status(500).json({error: 'get valid destination error'});
@@ -143,10 +143,10 @@ export async function secondClick(req: Request, res: Response): Promise<void> {
     res.json({});
   } catch(err: unknown) {
     if(err instanceof InvalidSourceSelectionError) {
-      res.status(403).json({error: 'invalid source selection error'});
+      res.status(403).json({error: 'invalid source selection'});
     }
     else if(err instanceof InvalidDestinationSelectionError) {
-      res.status(403).json({error: 'invalid destination selection error'});
+      res.status(403).json({error: 'invalid destination selection'});
     }
     else {
       res.status(500).json({error: 'get valid destination error'});
