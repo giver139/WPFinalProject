@@ -46,3 +46,75 @@ export class UsernameAlreadyExistsError extends Error {
   }
 }
 
+export class RoomIdNotFoundError extends Error {
+  constructor() {
+    super('roomId not found error');
+    this.name = 'RoomIdNotFoundError';
+    Object.setPrototypeOf(this, RoomIdNotFoundError.prototype);
+  }
+}
+
+export class UserAlreadyInTheRoomError extends Error {
+  constructor() {
+    super('user has been already in the room error');
+    this.name = 'UserAlreadyInTheRoomError';
+    Object.setPrototypeOf(this, UserAlreadyInTheRoomError.prototype);
+  }
+}
+
+export class UserNotInTheRoomError extends Error {
+  constructor() {
+    super('user is not in the room error');
+    this.name = 'UserNotInTheRoomError';
+    Object.setPrototypeOf(this, UserNotInTheRoomError.prototype);
+  }
+}
+
+export class PlayerNumberUnmatchError extends Error {
+  constructor() {
+    super('player number is not 2 error');
+    this.name = 'PlayerNumberUnmatchError';
+    Object.setPrototypeOf(this, PlayerNumberUnmatchError.prototype);
+  }
+}
+
+export class InvalidParametersError extends Error {
+  constructor() {
+    super('invalid parameters error');
+    this.name = 'InvalidParametersError';
+    Object.setPrototypeOf(this, InvalidParametersError.prototype);
+  }
+}
+
+export class UserNotInTheGameError extends Error {
+  constructor() {
+    super('user is not in the game error');
+    this.name = 'UserNotInTheGameError';
+    Object.setPrototypeOf(this, UserNotInTheGameError.prototype);
+  }
+}
+
+export class InvalidSourceSelectionError extends Error {
+  constructor() {
+    super('invalid source selection error');
+    this.name = 'InvalidSourceSelectionError';
+    Object.setPrototypeOf(this, InvalidSourceSelectionError.prototype);
+  }
+}
+
+export class NoPossibleDestinationError extends Error {
+  constructor() {
+    super('no possible destination for the selected source error');
+    this.name = 'NoPossibleDestinationError';
+    Object.setPrototypeOf(this, NoPossibleDestinationError.prototype);
+  }
+}
+
+export class InvalidDestinationSelectionError extends Error {
+  constructor() {
+    super('invalid destination selection error');
+    this.name = 'InvalidDestinationSelectionError';
+    Object.setPrototypeOf(this, InvalidDestinationSelectionError.prototype);
+  }
+}
+
