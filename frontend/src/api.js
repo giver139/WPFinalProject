@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {InternalServerError, RequireLoginError, InvalidPayloadError, UnknownError, IncorrectUsernameOrPasswordError, UsernameAlreadyExistsError} from './error';
+import {InternalServerError, RequireLoginError, InvalidPayloadError, UnknownError, IncorrectUsernameOrPasswordError, UsernameAlreadyExistsError, RoomIdNotFoundError, UserAlreadyInTheRoomError, UserNotInTheRoomError, PlayerNumberUnmatchError, InvalidParametersError, UserNotInTheGameError, InvalidSourceSelectionError, NoPossibleDestinationError, InvalidDestinationSelectionError} from './error';
 
 const api = axios.create({
   baseURL: `http://localhost:4000/api`,
@@ -32,14 +32,14 @@ export async function loginApi(payload) {
       throw new Error('invalid token');
     }
     localStorage.setItem('user', data.token.slice(7));
-    return data;
+    return data; // {user: {username: string, nickname: string}, token: string}
   } catch(error) {
     if(error?.response?.status === 403) {
       const data = error.response.data.error;
       if(data === 'incorrect username or password') {
         throw new IncorrectUsernameOrPasswordError;
       }
-      else if(data === 'incorrect payload') {
+      else if(data === 'invalid payload') {
         throw new InvalidPayloadError;
       }
       else {
@@ -55,14 +55,14 @@ export async function loginApi(payload) {
 export async function registerApi(payload) {
   try {
     const {data} = await api.post('/register', payload);
-    return data;
+    return data; // {user: {username: string, nickname: string}}
   } catch(error) {
     if(error?.response?.status === 403) {
       const data = error.response.data.error;
       if(data === 'username already exists') {
         throw new UsernameAlreadyExistsError;
       }
-      else if(data === 'incorrect payload' || data === 'user information must not be empty') {
+      else if(data === 'invalid payload' || data === 'user information must not be empty') {
         throw new InvalidPayloadError;
       }
       else {
@@ -79,9 +79,157 @@ export async function logoutApi(payload) {
   try {
     const {data} = await api.post('/logout', payload);
     localStorage.removeItem('user');
-    return data;
+    return data; // {token: string}
   } catch(error) {
     throw error;
+  }
+}
+
+export async function joinRoom(roomId) {
+  try {
+    const {data} = await api.post(`/joinRoom/${roomId}`);
+    return data; // {room: {roomId: number, players: string[], timestamp: Date}}
+  } catch(error) {
+    if(error?.response?.status === 403) {
+      const data = error.response.data.error;
+      if(data === 'roomId not found' || data === 'invalid roomId') {
+        throw new RoomIdNotFoundError;
+      }
+      else if(data === 'user already in the room') {
+        throw new UserAlreadyInTheRoomError;
+      }
+      else {
+        throw new UnknownError;
+      }
+    }
+    else {
+      throw error;
+    }
+  }
+}
+
+export async function listRooms() {
+  try {
+    const {data} = await api.get('/allRooms');
+    return data; // {rooms: {roomId: number, players: string[], timestamp: Date}[]}
+  } catch(error) {
+    throw error;
+  }
+}
+
+export async function createRoom() {
+  try {
+    const {data} = await api.post('/createRoom');
+    return data; // {room: {roomId: number, players: string[], timestamp: Date}}
+  } catch(error) {
+    throw error;
+  }
+}
+
+export async function leaveRoom(roomId) {
+  try {
+    const {data} = await api.post(`/leaveRoom/${roomId}`);
+    return data; // {}
+  } catch(error) {
+    if(error?.response?.status === 403) {
+      const data = error.response.data.error;
+      if(data === 'roomId not found' || data === 'invalid roomId') {
+        throw new RoomIdNotFoundError;
+      }
+      else if(data === 'user not in this room') {
+        throw new UserNotInTheRoomError;
+      }
+      else {
+        throw new UnknownError;
+      }
+    }
+    else {
+      throw error;
+    }
+  }
+}
+
+export async function startGame(roomId) {
+  try {
+    const {data} = await api.post(`/startGame/${roomId}`);
+    return data; // {game: {gameId: number, players: string[], timestamp: Date, blackPlayer: number, board: number[], noFlipEatCount: number}}
+  } catch(error) {
+    if(error?.response?.status === 403) {
+      const data = error.response.data.error;
+      if(data === 'user not in this room') {
+        throw new UserNotInTheRoomError;
+      }
+      else if(data === 'player number is not 2') {
+        throw new PlayerNumberUnmatchError;
+      }
+      else {
+        throw error;
+      }
+    }
+    else {
+      throw error;
+    }
+  }
+}
+
+export async function firstClick(gameId, source) {
+  try {
+    const {data} = await api.get(`/firstClick/${gameId}`, {params: {source}});
+    return data; // {destination: {source: number, destination: number}[]}
+  } catch(error) {
+    if(error?.response?.status === 403) {
+      const data = error.response.data.error;
+      if(data === 'invalid parameters') {
+        throw new InvalidParametersError;
+      }
+      else if(data === 'user not in the game') {
+        throw new UserNotInTheGameError;
+      }
+      else if(data === 'invalid source selection') {
+        throw new InvalidSourceSelectionError;
+      }
+      else if(data === 'no possible destination') {
+        throw new NoPossibleDestinationError;
+      }
+      else {
+        throw new UnknownError;
+      }
+    }
+    else {
+      throw error;
+    }
+  }
+}
+
+export async function secondClick(gameId, source, destination) {
+  try {
+    const {data} = await api.post(`/secondClick/${gameId}`, {source, destination});
+    return data; // {}
+  } catch(error) {
+    if(error?.response?.status === 403) {
+      const data = error.response.data.error;
+      if(data === 'invalid parameters') {
+        throw new InvalidParametersError;
+      }
+      if(data === 'invalid payload') {
+        throw new InvalidPayloadError;
+      }
+      else if(data === 'user not in the game') {
+        throw new UserNotInTheGameError;
+      }
+      else if(data === 'invalid source selection') {
+        throw new InvalidSourceSelectionError;
+      }
+      else if(data === 'invalid destination selection') {
+        throw new InvalidDestinationSelectionError;
+      }
+      else {
+        throw new UnknownError;
+      }
+    }
+    else {
+      throw error;
+    }
   }
 }
 
