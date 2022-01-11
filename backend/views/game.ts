@@ -6,11 +6,13 @@ export class GameView {
   readonly timestamp: Date;
   readonly blackPlayer: number;
   readonly board: ReadonlyArray<number>;
+  readonly noFlipEatCount: number;
   constructor(game: Game) {
     this.gameId = game.gameId;
     this.players = [...game.players];
     this.timestamp = game.timestamp;
     this.blackPlayer = game.blackPlayer;
     this.board = [...game.board];
+    this.noFlipEatCount = game.noFlipEatCount;
   }
 }
