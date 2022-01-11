@@ -6,6 +6,8 @@ import ConfirmButton from '../components/ConfirmButton';
 import {loginApi} from '../api';
 
 const LogInpage = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const myStyle = {
     backgroundImage: "url('https://pic.52112.com/180317/180317_143/n4SNygWU7T_small.jpg')",
@@ -30,10 +32,10 @@ const LogInpage = () => {
         <h1>登入帳號</h1>
       </Title>
       <Username>
-        <Input placeholder='your account'></Input>
+        <Input placeholder='your account' onChange={(event) => {setUsername(() => event.target.value);}}></Input>
       </Username>
       <Username>
-        <Input placeholder='your password'></Input>
+        <Input placeholder='your password' onChange={(event) => {setPassword(() => event.target.value);}}></Input>
       </Username>
       <ConfirmButton>
         <Button>確認</Button>
