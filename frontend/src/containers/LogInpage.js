@@ -38,7 +38,7 @@ const LogInpage = () => {
         <Input placeholder='your password' onChange={(event) => {setPassword(() => event.target.value);}}></Input>
       </Username>
       <ConfirmButton>
-        <Button>確認</Button>
+        <Button onClick={handleOnClick}>確認</Button>
       </ConfirmButton> 
     </div>
   )
