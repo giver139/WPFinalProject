@@ -6,7 +6,7 @@ import ConfirmButton from '../components/ConfirmButton';
 import {joinRoomApi} from '../api'
 import BoardPage from "./Boardpage";
 
-const AllRoomspage = () => {
+const AllRoomspage = ({username}) => {
 
   const myStyle = {
     backgroundImage: "url('https://pic.52112.com/180317/180317_143/n4SNygWU7T_small.jpg')",
@@ -38,7 +38,7 @@ const AllRoomspage = () => {
     return (
       <div className="roomspage" style={myStyle}>
         <Title>
-          <h1>加入房間</h1>
+          <h1>{username} 加入房間</h1>
         </Title>
         <Username>
           <Input placeholder="room ID" onChange={(event) => {setRoomId(() => event.target.value);}}></Input>

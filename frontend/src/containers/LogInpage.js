@@ -34,7 +34,7 @@ const LogInpage = () => {
 
   if(loggedIn) {
     return (
-      <Gamepage></Gamepage>
+      <Gamepage username={username}></Gamepage>
     )
   }
 

@@ -8,7 +8,7 @@ import AllRoomspage from './AllRoomspage';
 import { createRoomApi } from '../api';
 import {createContext} from "react";
 
-const Gamepage = () => {
+const Gamepage = ({username}) => {
 
   const idContext = createContext();
 
@@ -20,6 +20,7 @@ const Gamepage = () => {
 
   const [joined, setJoined] = useState(false);
   const [created, setCreated] = useState(false);
+  const [roomID, setRoomID] = useState(-1);
 
   const handleOnJoin = () => {
     setJoined(true);
@@ -30,6 +31,7 @@ const Gamepage = () => {
       const {room} = await createRoomApi();
       console.log(room);
       setCreated(true);
+      setRoomID(room.roomId);
     } catch(error) {
 
     }
@@ -37,13 +39,13 @@ const Gamepage = () => {
 
   if(created) {
     return (
-      <MyRoompage></MyRoompage>
+      <MyRoompage username={username} roomID = {roomID}></MyRoompage>
     )
   }
 
   else if(joined) {
     return (
-      <AllRoomspage></AllRoomspage>
+      <AllRoomspage username={username}></AllRoomspage>
     )
   }
 
@@ -51,7 +53,7 @@ const Gamepage = () => {
     return (
       <div className='Gamepage' style = {myStyle}>
         <Title>
-          <h1>開始遊戲</h1>
+          <h1>開始遊戲 {username}</h1>
         </Title>
         <CreateRoom>
           <Button onClick={handleOnCreate}>創建房間</Button>

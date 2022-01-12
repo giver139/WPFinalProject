@@ -7,7 +7,7 @@ import Gamepage from "./Gamepage";
 import { useContext } from "react";
 import { leaveRoomApi, startGameApi } from "../api";
 
-const MyRoompage = () => {
+const MyRoompage = ({username, roomID}) => {
 
   const [startGame, setStartGame] = useState(false);
   const [leave, setLeave] = useState(false);
@@ -18,11 +18,9 @@ const MyRoompage = () => {
     height: '675px',
   };
 
-  const [roomId, setRoomId] = useState(0);
-
   const handleOnStart = async () => {
     try {
-      const {game} = await startGameApi(roomId) ;
+      const {game} = await startGameApi(roomID) ;
       setStartGame(true);
     } catch(error) {
       
@@ -31,7 +29,7 @@ const MyRoompage = () => {
 
   const handleOnLeave = async () => {
     try {
-      await leaveRoomApi(roomId);
+      await leaveRoomApi(roomID);
       setLeave(true);
     } catch(error) {
 
@@ -54,10 +52,10 @@ const MyRoompage = () => {
     return (
       <div className="roomspage" style={myStyle}>
         <Title>
-          <h1>我的房間</h1>
+          <h1>{username} 我的房間</h1>
         </Title>
         <Title>
-          <h2>Room ID: {}</h2>
+          <h2>Room ID: {roomID}</h2>
         </Title>
         <ConfirmButton>
           <Button onClick={handleOnStart}>開始遊戲</Button>
