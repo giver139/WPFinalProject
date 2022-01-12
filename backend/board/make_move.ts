@@ -17,7 +17,7 @@ export function makeMove(game: Game, color: Color, move: Move, username: string)
       game.blackPlayer = 1 - game.players.indexOf(username);
     }
   }
-  if (move.source === move.destination) {
+  if (move.source.index === move.destination.index) {
     // flip
     board.board[move.source.index] = flipChess(initBoard.board[move.source.index]);
     game.noFlipEatCount = 0;
