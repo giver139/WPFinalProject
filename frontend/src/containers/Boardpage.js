@@ -16,7 +16,7 @@ import rn from "../chessPieces/rn.png";
 import rp from "../chessPieces/rp.png";
 import rr from "../chessPieces/rr.png";
 import { firstClickApi, secondClickApi } from "../api";
-import { InvalidDestinationSelectionError, InvalidSourceSelectionError, NoPossibleDestinationError, RequireLoginError, InternalServerError } from "../error";
+import { InvalidDestinationSelectionError, InvalidSourceSelectionError, NoPossibleDestinationError, RequireLoginError, InternalServerError, NotYourTurnError } from "../error";
 
 const chessImage = [bk, bg, bm, br, bn, bc, bp, rk, rg, rm, rr, rn, rc, rp, cover, cover];
 
@@ -75,6 +75,10 @@ const BoardPage = ({username, player1, player2, roomID, gameId}) => {
 
       else if(error instanceof InternalServerError) {
         console.log("Internal Server Error!!");
+      }
+
+      else if(error instanceof NotYourTurnError) {
+        console.log("Not Your Turn!!!")
       }
     }
   }
