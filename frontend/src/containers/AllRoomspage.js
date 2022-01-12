@@ -14,7 +14,7 @@ const AllRoomspage = () => {
     height: '675px',
   };
 
-  const [roomId, setRoomId] = useState("");
+  const [roomId, setRoomId] = useState(0);
   const [idCorrect, setIdCorrect] = useState(false);
 
   const handleOnClick = async () => {

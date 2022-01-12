@@ -5,6 +5,7 @@ import {useState} from "react";
 import BoardPage from "./Boardpage";
 import Gamepage from "./Gamepage";
 import { useContext } from "react";
+import { leaveRoomApi, startGameApi } from "../api";
 
 const MyRoompage = () => {
 
@@ -17,12 +18,24 @@ const MyRoompage = () => {
     height: '675px',
   };
 
-  const handleOnStart = () => {
-    setStartGame(true);
+  const [roomId, setRoomId] = useState(0);
+
+  const handleOnStart = async () => {
+    try {
+      const {game} = await startGameApi(roomId) ;
+      setStartGame(true);
+    } catch(error) {
+      
+    }
   }
 
-  const handleOnLeave = () => {
-    setLeave(true);
+  const handleOnLeave = async () => {
+    try {
+      await leaveRoomApi(roomId);
+      setLeave(true);
+    } catch(error) {
+
+    } 
   }
 
   if(startGame) {

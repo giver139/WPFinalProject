@@ -15,6 +15,7 @@ import rm from "../chessPieces/rm.png";
 import rn from "../chessPieces/rn.png";
 import rp from "../chessPieces/rp.png";
 import rr from "../chessPieces/rr.png";
+import { firstClickApi, secondClickApi } from "../api";
 
 const chessImage = [bk, bg, bm, br, bn, bc, bp, rk, rg, rm, rr, rn, rc, rp, cover, cover];
 
@@ -37,13 +38,24 @@ const BoardPage = () => {
     alignSelf: 'center',
   }
 
-  const [board, setBoard] = useState(new Array(32).fill(14))
+
+  const [board, setBoard] = useState(new Array(32).fill(14));
+  const [gameId, setGameId] = useState(0);
+  const [source, setSource] = useState(0);
+
+  const handleOnClick = async () => {
+    try {
+      const {destination} = await firstClickApi(gameId, source); 
+    } catch(error) {
+
+    }
+  }
 
   console.log(board);
   return (
     <div className="Boardpage" style={myStyle}>
       <Board>{board.map((chess_id,index) => (<div style = {blocks} key={index*100+chess_id}>
-      <img src = {chessImage[chess_id]} style={pictures} />
+      <img src = {chessImage[chess_id]} style={pictures} onClick={handleOnClick}/>
       </div>))}</Board>
     </div>
   )
