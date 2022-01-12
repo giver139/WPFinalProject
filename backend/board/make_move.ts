@@ -29,7 +29,7 @@ export function makeMove(game: Game, color: Color, move: Move, username: string)
     else {
       game.noFlipEatCount++;
     }
-    board.board[move.destination.index] = board.board[move.source.index];
+    board.board[move.destination.index].chessType = board.board[move.source.index].chessType;
     board.board[move.source.index].chessType.chessNo = ChessNo.EMPTY;
   }
   game.board = board.toChessNoArray();
