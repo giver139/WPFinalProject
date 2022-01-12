@@ -4,6 +4,7 @@ import {InvalidPositionError, InvalidChessNoError} from './error';
 export enum Color {
   BLACK,
   RED,
+  NONE,
 };
 
 export enum Type {
@@ -14,6 +15,8 @@ export enum Type {
   KNIGHT,
   CANNON,
   PAWN,
+  EMPTY,
+  NONE,
 };
 
 export enum ChessNo {
@@ -71,6 +74,10 @@ function toChessType(chessNo: number): ChessType {
       return {color: Color.RED, type: Type.CANNON, chessNo: ChessNo.RED_CANNON};
     case ChessNo.RED_PAWN:
       return {color: Color.RED, type: Type.PAWN, chessNo: ChessNo.RED_PAWN};
+    case ChessNo.EMPTY:
+      return {color: Color.NONE, type: Type.NONE, chessNo: ChessNo.EMPTY};
+    case ChessNo.COVERED:
+      return {color: Color.NONE, type: Type.NONE, chessNo: ChessNo.COVERED};
     default:
       throw new InvalidChessNoError;
   }
