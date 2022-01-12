@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {InternalServerError, RequireLoginError, InvalidPayloadError, UnknownError, IncorrectUsernameOrPasswordError, UsernameAlreadyExistsError, RoomIdNotFoundError, UserAlreadyInTheRoomError, UserNotInTheRoomError, PlayerNumberUnmatchError, InvalidParametersError, UserNotInTheGameError, InvalidSourceSelectionError, NoPossibleDestinationError, InvalidDestinationSelectionError} from './error';
+import {InternalServerError, RequireLoginError, InvalidPayloadError, UnknownError, IncorrectUsernameOrPasswordError, UsernameAlreadyExistsError, RoomIdNotFoundError, UserAlreadyInTheRoomError, UserNotInTheRoomError, PlayerNumberUnmatchError, InvalidParametersError, UserNotInTheGameError, InvalidSourceSelectionError, NoPossibleDestinationError, InvalidDestinationSelectionError, NotYourTurnError} from './error';
 
 const api = axios.create({
   baseURL: `http://localhost:4000/api`,
@@ -191,6 +191,9 @@ export async function firstClickApi(gameId, source) {
       else if(data === 'no possible destination') {
         throw new NoPossibleDestinationError;
       }
+      else if(data === 'not your turn to move') {
+        throw new NotYourTurnError;
+      }
       else {
         throw new UnknownError;
       }
@@ -222,6 +225,9 @@ export async function secondClickApi(gameId, source, destination) {
       }
       else if(data === 'invalid destination selection') {
         throw new InvalidDestinationSelectionError;
+      }
+      else if(data === 'not your turn to move') {
+        throw new NotYourTurnError;
       }
       else {
         throw new UnknownError;

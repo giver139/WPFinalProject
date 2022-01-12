@@ -118,3 +118,11 @@ export class InvalidDestinationSelectionError extends Error {
   }
 }
 
+export class NotYourTurnError extends Error {
+  constructor() {
+    super('not your turn to move error');
+    this.name = 'NotYourTurnError';
+    Object.setPrototypeOf(this, NotYourTurnError.prototype);
+  }
+}
+
