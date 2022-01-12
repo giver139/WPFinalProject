@@ -25,7 +25,7 @@ export function makeMove(game: Game, color: Color, move: Move, username: string)
     if (board.board[move.source.index].color !== color) {
       throw new InvalidSourceSelectionError;
     }
-    if (canMoveOneStep(move.source, move.destination) === false) {
+    if (canMoveOneStep(board.board[move.source.index], board.board[move.destination.index]) === false) {
       throw new InvalidDestinationSelectionError;
     }
     // move
