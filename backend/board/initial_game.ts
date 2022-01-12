@@ -12,6 +12,7 @@ export function getInitialBoard(): {initialBoard: number[], board: number[]} {
   for (let i in chessCount) {
     while (chessCount[i] > 0) {
       initialBoard.push(chessNoOrder[i]);
+      chessCount[i]--;
     }
   }
   // randomshuffle

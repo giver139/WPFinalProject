@@ -88,11 +88,12 @@ export async function firstClick(req: Request, res: Response): Promise<void> {
     return;
   }
   const user = req.user;
-  if(!hasFirstClickParams(req.params)) {
+  const params = {...req.params, ...req.query}
+  if(!hasFirstClickParams(params)) {
     res.status(403).json({error: 'invalid parameters'});
     return;
   }
-  const {source, gameId} = req.params;
+  const {source, gameId} = params;
   try {
     if(!await checkUserInGame(user.username, gameId)) {
       res.status(403).json({error: 'user not in the game'});
