@@ -23,10 +23,10 @@ const Registerpage = () => {
     if(username !== "" && password !== "" && nickname !== "") {
       try {
         const {user} = await registerApi({username, password, nickname});
+        setRegistered(true);
       } catch(error) {
         // handle error
       }
-      setRegistered(true);
     }
   }
 
@@ -46,7 +46,7 @@ const Registerpage = () => {
         </Username>
         <Username>
           <Input placeholder='your password'
-          onChange={(e) => {setPassword(e.target.value)}}></Input>
+          onChange={(e) => {setPassword(e.target.value)}} type='password'></Input>
         </Username>
         <Username>
           <Input placeholder='your nickname'
