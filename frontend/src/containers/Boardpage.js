@@ -19,7 +19,7 @@ import { firstClickApi, secondClickApi } from "../api";
 
 const chessImage = [bk, bg, bm, br, bn, bc, bp, rk, rg, rm, rr, rn, rc, rp, cover, cover];
 
-const BoardPage = () => {
+const BoardPage = ({username, player1, player2, roomID}) => {
 
   const myStyle = {
     backgroundImage: "url('https://pic.52112.com/180317/180317_143/n4SNygWU7T_small.jpg')",
@@ -63,6 +63,9 @@ const BoardPage = () => {
   console.log(board);
   return (
     <div className="Boardpage" style={myStyle}>
+      <h3>{username} Game</h3>
+      <h3>{player1} vs {player2}</h3>
+      <h3>Room ID: {roomID}</h3>
       <Board>{board.map((chess_id,index) => (<div style = {blocks} key={index*100+chess_id}>
       <img src = {chessImage[chess_id]} style={pictures} onClick={handleOnClick}/>
       </div>))}</Board>

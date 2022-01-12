@@ -16,12 +16,16 @@ const AllRoomspage = ({username}) => {
 
   const [roomId, setRoomId] = useState(0);
   const [idCorrect, setIdCorrect] = useState(false);
+  const [player1, setPlayer1] = useState('');
+  const [player2, setPlayer2] = useState('');
 
   const handleOnClick = async () => {
     if(roomId !== "") {
       try {
         const {room} = await joinRoomApi(roomId);
         setIdCorrect(true);
+        setPlayer1(room.players[0])
+        setPlayer2(room.players[1])
       } catch(error) {
         // handle error
       }
@@ -30,7 +34,7 @@ const AllRoomspage = ({username}) => {
 
   if(idCorrect) {
     return (
-      <BoardPage></BoardPage>
+      <BoardPage username={username} player1={player1} player2={player2} roomID={roomId}></BoardPage>
     )
   }
 
