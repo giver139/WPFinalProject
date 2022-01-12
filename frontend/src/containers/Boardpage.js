@@ -42,10 +42,19 @@ const BoardPage = () => {
   const [board, setBoard] = useState(new Array(32).fill(14));
   const [gameId, setGameId] = useState(0);
   const [source, setSource] = useState(0);
+  const [firstClicked, setFirstClicked] = useState(false)
+  const [destination, setDestination] = useState(0);
 
   const handleOnClick = async () => {
     try {
-      const {destination} = await firstClickApi(gameId, source); 
+      if(firstClicked) {
+        const {destination2} = await secondClickApi(gameId, source, destination);
+        setFirstClicked(false);
+      }
+      else {
+        const {destination} = await firstClickApi(gameId, source); 
+        setFirstClicked(true)
+      }
     } catch(error) {
 
     }

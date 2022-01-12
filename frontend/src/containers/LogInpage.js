@@ -5,6 +5,7 @@ import Username from '../components/Username';
 import ConfirmButton from '../components/ConfirmButton';
 import {loginApi} from '../api';
 import Gamepage from './Gamepage';
+import { IncorrectUsernameOrPasswordError } from '../error';
 
 const LogInpage = () => {
   const [username, setUsername] = useState("");
@@ -24,7 +25,9 @@ const LogInpage = () => {
         const {user} = await loginApi({username, password});
         setLoggedIn(true);
       } catch(error) {
-        // handle error
+        if(error instanceof IncorrectUsernameOrPasswordError) {
+          
+        }
       }
     }
   }
