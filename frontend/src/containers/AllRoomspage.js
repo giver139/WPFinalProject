@@ -41,7 +41,7 @@ const AllRoomspage = () => {
           加入房間
         </Title>
         <Username>
-          <Input placeholder="room ID" onChange={(e) => setRoomId(() => {e.target.value})}></Input>
+          <Input placeholder="room ID" onChange={(event) => {setRoomId(() => event.target.value);}}></Input>
         </Username>
         <ConfirmButton>
             <Button >確認</Button>
