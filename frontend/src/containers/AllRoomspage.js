@@ -20,7 +20,7 @@ const AllRoomspage = () => {
   const handleOnClick = async () => {
     if(roomId !== "") {
       try {
-        const {room} = await joinRoomApi({roomId});
+        const {room} = await joinRoomApi(roomId);
         setIdCorrect(true);
       } catch(error) {
         // handle error
