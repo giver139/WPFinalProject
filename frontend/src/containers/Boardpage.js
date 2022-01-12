@@ -13,13 +13,13 @@ const BoardPage = () => {
     width: '75px',
   }
 
-  const verticalAxis = ["1", "2", "3", "4"];
-  const horizontalAxis = ["a", "b", "c", "d", "e", "f", "i", "j"];
+  const horizontalAxis = ["1", "2", "3", "4", "5", "6", "7", "8"];
+  const verticalAxis = ["a", "b", "c", "d"];
 
   let board = [];;
-  for(let i = 0; i < horizontalAxis.length; i++) {
-    for(let j = verticalAxis.length - 1; j >= 0; j--) {
-      board.push(<div style = {blocks}>{horizontalAxis[i]} {verticalAxis[j]}</div>)
+  for(let i = 0; i < verticalAxis.length; i++) {
+    for(let j = 0; j < horizontalAxis.length; j++) {
+      board.push(<div style = {blocks}>{verticalAxis[i]}{horizontalAxis[j]}</div>)
     }
   }
 

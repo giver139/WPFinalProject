@@ -5,6 +5,7 @@ import JoinRoom from '../components/Joinroom';
 import Title from '../components/Title';
 import MyRoompage from './MyRoompage';
 import AllRoomspage from './AllRoomspage';
+import { createRoomApi } from '../api';
 
 const Gamepage = () => {
 
@@ -21,8 +22,14 @@ const Gamepage = () => {
     setJoined(true);
   }
 
-  const handleOnCreate = () => {
-    setCreated(true);
+  const handleOnCreate = async () => {
+    try {
+      const {room} = await createRoomApi();
+      console.log(room);
+      setCreated(true);
+    } catch(error) {
+
+    }
   }
 
   if(created) {

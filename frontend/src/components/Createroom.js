@@ -11,6 +11,8 @@ const CreateRoom = styled.div`
       font-size: 40px;
       background-color: black;
       color: white;
+      margin: 100px;
+      font-family: 思源宋體;
     }
 `;
 

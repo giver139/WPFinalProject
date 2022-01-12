@@ -38,13 +38,13 @@ const AllRoomspage = () => {
     return (
       <div className="roomspage" style={myStyle}>
         <Title>
-          加入房間
+          <h1>加入房間</h1>
         </Title>
         <Username>
           <Input placeholder="room ID" onChange={(event) => {setRoomId(() => event.target.value);}}></Input>
         </Username>
         <ConfirmButton>
-            <Button >確認</Button>
+            <Button onClick={handleOnClick}>確認</Button>
         </ConfirmButton>
       </div>
     )

@@ -11,6 +11,7 @@ const JoinRoom = styled.div`
       font-size: 40px;
       background-color: black;
       color: white;
+      font-family: 思源宋體;
     }
 `;
 
