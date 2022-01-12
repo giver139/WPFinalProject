@@ -5,7 +5,8 @@ import Username from '../components/Username';
 import ConfirmButton from '../components/ConfirmButton';
 import Homepage from './Homepage';
 import {registerApi} from '../api';
-import { UsernameAlreadyExistsError } from '../error';
+import { InternalServerError, UsernameAlreadyExistsError } from '../error';
+import InternalPreviewGroup from 'antd/lib/image/PreviewGroup';
 
 const Registerpage = () => {
   const [username, setUsername] = useState("");
@@ -28,6 +29,10 @@ const Registerpage = () => {
       } catch(error) {
         if(error instanceof UsernameAlreadyExistsError) {
           alert("This Username is Already Used!!!");
+        }
+
+        else if(error instanceof InternalServerError) {
+          console.log("Internal Server Error!!");
         }
       }
     }

@@ -6,7 +6,7 @@ import BoardPage from "./Boardpage";
 import Gamepage from "./Gamepage";
 import { useContext } from "react";
 import { leaveRoomApi, startGameApi } from "../api";
-import { PlayerNumberUnmatchError } from "../error";
+import { PlayerNumberUnmatchError, InternalServerError } from "../error";
 
 const MyRoompage = ({username, roomID}) => {
 
@@ -41,7 +41,9 @@ const MyRoompage = ({username, roomID}) => {
       await leaveRoomApi(roomID);
       setLeave(true);
     } catch(error) {
-
+      if(error instanceof InternalServerError) {
+        console.log("Internal Server Error!!");
+      }
     } 
   }
 

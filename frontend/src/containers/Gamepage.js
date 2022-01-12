@@ -6,6 +6,7 @@ import Title from '../components/Title';
 import MyRoompage from './MyRoompage';
 import AllRoomspage from './AllRoomspage';
 import { createRoomApi } from '../api';
+import { RequireLoginError, InternalServerError } from '../error';
 
 const Gamepage = ({username}) => {
 
@@ -30,7 +31,13 @@ const Gamepage = ({username}) => {
       setCreated(true);
       setRoomID(room.roomId);
     } catch(error) {
+      if(error instanceof InternalServerError) {
+        console.log("Internal Server Error!!");
+      }
 
+      else if(error instanceof RequireLoginError) {
+        console.log("Please Log In Again!!!");
+      }
     }
   }
 

@@ -6,6 +6,7 @@ import ConfirmButton from '../components/ConfirmButton';
 import {joinRoomApi} from '../api'
 import BoardPage from "./Boardpage";
 import Gamepage from "./Gamepage";
+import { RequireLoginError , InternalServerError } from "../error";
 
 const AllRoomspage = ({username}) => {
 
@@ -29,7 +30,13 @@ const AllRoomspage = ({username}) => {
         setPlayer1(room.players[0])
         setPlayer2(room.players[1])
       } catch(error) {
-        // handle error
+        if(error instanceof InternalServerError) {
+          console.log("Internal Server Error!!");
+        }
+
+        else if(error instanceof RequireLoginError) {
+          alert("Please Log In Again!!!");
+        }
       }
     }
   }

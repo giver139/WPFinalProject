@@ -16,10 +16,13 @@ import rn from "../chessPieces/rn.png";
 import rp from "../chessPieces/rp.png";
 import rr from "../chessPieces/rr.png";
 import { firstClickApi, secondClickApi } from "../api";
+import { InvalidDestinationSelectionError, InvalidSourceSelectionError, NoPossibleDestinationError, RequireLoginError, InternalServerError } from "../error";
 
 const chessImage = [bk, bg, bm, br, bn, bc, bp, rk, rg, rm, rr, rn, rc, rp, cover, cover];
 
-const BoardPage = ({username, player1, player2, roomID, source, moves, gameId}) => {
+const BoardPage = ({username, player1, player2, roomID, gameId}) => {
+
+  const [source, setSource] = useState(-1);
 
   const myStyle = {
     backgroundImage: "url('https://pic.52112.com/180317/180317_143/n4SNygWU7T_small.jpg')",
@@ -41,18 +44,38 @@ const BoardPage = ({username, player1, player2, roomID, source, moves, gameId}) 
   const [board, setBoard] = useState(new Array(32).fill(14));
   const [firstClicked, setFirstClicked] = useState(false)
 
-  const handleOnClick = async () => {
+  const handleOnClick = async (index) => {
     try {
-      if(firstClicked) {
-        const {destination} = await secondClickApi(gameId, source, moves);
-        setFirstClicked(false);
+      if(!firstClicked) {
+        const {moves} = await firstClickApi(gameId, index); 
+        setFirstClicked(true);
+        setSource(index);
       }
       else {
-        const {moves} = await firstClickApi(gameId, source); 
-        setFirstClicked(true)
+        await secondClickApi(gameId, source, index);
+        setFirstClicked(false);
+        setSource(-1);
       }
     } catch(error) {
+      if(error instanceof InvalidDestinationSelectionError) {
+        alert('Not a valid Destination!!!');
+      }
 
+      else if(error instanceof InvalidSourceSelectionError) {
+        alert('Not a valid Source!!!');
+      }
+
+      else if(error instanceof NoPossibleDestinationError) {
+        alert('No Possible Destination!!!');
+      }
+
+      else if(error instanceof RequireLoginError) {
+        alert("Please Log In Again!!!");
+      }
+
+      else if(error instanceof InternalServerError) {
+        console.log("Internal Server Error!!");
+      }
     }
   }
 
@@ -62,8 +85,8 @@ const BoardPage = ({username, player1, player2, roomID, source, moves, gameId}) 
       <h3>Unrated Game</h3>
       <h3>{player1} vs {player2}</h3>
       <h3>Room ID: {roomID}</h3>
-      <Board>{board.map((chess_id,index) => (<div style = {blocks} key={index*100+chess_id}>
-      <img src = {chessImage[chess_id]} style={pictures} onClick={handleOnClick}/>
+      <Board>{board.map((chess_id, index) => (<div style = {blocks} key={index*100+chess_id}>
+      <img src = {chessImage[chess_id]} style={pictures} onClick={() => {handleOnClick(index);}}/>
       </div>))}</Board>
     </div>
   )

@@ -5,7 +5,7 @@ import Username from '../components/Username';
 import ConfirmButton from '../components/ConfirmButton';
 import {loginApi} from '../api';
 import Gamepage from './Gamepage';
-import { IncorrectUsernameOrPasswordError } from '../error';
+import { IncorrectUsernameOrPasswordError, InternalServerError } from '../error';
 
 const LogInpage = () => {
   const [username, setUsername] = useState("");
@@ -27,6 +27,10 @@ const LogInpage = () => {
       } catch(error) {
         if(error instanceof IncorrectUsernameOrPasswordError) {
           alert("Incorrect Username or Password!!!");
+        }
+
+        else if(error instanceof InternalServerError) {
+          console.log("Internal Server Error!!");
         }
       }
     }
