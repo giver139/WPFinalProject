@@ -14,6 +14,9 @@ export function getValidDestinations(game: Readonly<Game>, color: Color, source:
   if (board.board[source.index].chessNo === ChessNo.COVERED) {
     return [{source: source, destination: source}];
   }
+  if (board.board[source.index].color !== color) {
+    throw new InvalidSourceSelectionError;
+  }
   let validMoves = [];
   let neighbors = getNeighborPositions(source);
   for (let neighborPosition of neighbors) {

@@ -27,6 +27,15 @@ export function canMoveOneStep(source: Chess, destination: Chess): Boolean {
       return false;
     }
   }
+  // deal with king in special case
+  if (source.type === Type.KING) {
+    if (destination.type === Type.PAWN) {
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
   let typeOrder = [Type.KING, Type.GUARD, Type.MINISTER, Type.ROOK, Type.KNIGHT, Type.CANNON, Type.PAWN];
   if (typeOrder.indexOf(source.type) <= typeOrder.indexOf(destination.type)) {
     return true;
