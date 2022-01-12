@@ -125,11 +125,12 @@ export async function secondClick(req: Request, res: Response): Promise<void> {
     return;
   }
   const user = req.user;
-  if(!hasSecondClickParams(req.params)) {
+  const params = {...req.params, ...req.body}
+  if(!hasSecondClickParams(params)) {
     res.status(403).json({error: 'invalid parameters'});
     return;
   }
-  const {gameId, source, destination} = req.params;
+  const {gameId, source, destination} = params;
   try {
     if(!await checkUserInGame(user.username, gameId)) {
       res.status(403).json({error: 'user not in the game'});
