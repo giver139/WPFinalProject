@@ -105,7 +105,7 @@ export async function firstClick(req: Request, res: Response): Promise<void> {
   }
   try {
     const moves = await getValidMovesFromSource(user.username, gameId, source);
-    res.json({destination: moves});
+    res.json({moves});
   } catch(err: unknown) {
     if(err instanceof InvalidSourceSelectionError) {
       res.status(403).json({error: 'invalid source selection'});
