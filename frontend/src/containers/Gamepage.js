@@ -6,8 +6,11 @@ import Title from '../components/Title';
 import MyRoompage from './MyRoompage';
 import AllRoomspage from './AllRoomspage';
 import { createRoomApi } from '../api';
+import {createContext} from "react";
 
 const Gamepage = () => {
+
+  const idContext = createContext();
 
   const myStyle = {
     backgroundImage: "url('https://pic.52112.com/180317/180317_143/n4SNygWU7T_small.jpg')",
