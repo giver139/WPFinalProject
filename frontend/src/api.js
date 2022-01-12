@@ -85,7 +85,7 @@ export async function logoutApi(payload) {
   }
 }
 
-export async function joinRoom(roomId) {
+export async function joinRoomApi(roomId) {
   try {
     const {data} = await api.post(`/joinRoom/${roomId}`);
     return data; // {room: {roomId: number, players: string[], timestamp: Date}}
@@ -108,7 +108,7 @@ export async function joinRoom(roomId) {
   }
 }
 
-export async function listRooms() {
+export async function listRoomsApi() {
   try {
     const {data} = await api.get('/allRooms');
     return data; // {rooms: {roomId: number, players: string[], timestamp: Date}[]}
@@ -117,7 +117,7 @@ export async function listRooms() {
   }
 }
 
-export async function createRoom() {
+export async function createRoomApi() {
   try {
     const {data} = await api.post('/createRoom');
     return data; // {room: {roomId: number, players: string[], timestamp: Date}}
@@ -126,7 +126,7 @@ export async function createRoom() {
   }
 }
 
-export async function leaveRoom(roomId) {
+export async function leaveRoomApi(roomId) {
   try {
     const {data} = await api.post(`/leaveRoom/${roomId}`);
     return data; // {}
@@ -149,7 +149,7 @@ export async function leaveRoom(roomId) {
   }
 }
 
-export async function startGame(roomId) {
+export async function startGameApi(roomId) {
   try {
     const {data} = await api.post(`/startGame/${roomId}`);
     return data; // {game: {gameId: number, players: string[], timestamp: Date, blackPlayer: number, board: number[], noFlipEatCount: number}}
@@ -172,7 +172,7 @@ export async function startGame(roomId) {
   }
 }
 
-export async function firstClick(gameId, source) {
+export async function firstClickApi(gameId, source) {
   try {
     const {data} = await api.get(`/firstClick/${gameId}`, {params: {source}});
     return data; // {destination: {source: number, destination: number}[]}
@@ -201,7 +201,7 @@ export async function firstClick(gameId, source) {
   }
 }
 
-export async function secondClick(gameId, source, destination) {
+export async function secondClickApi(gameId, source, destination) {
   try {
     const {data} = await api.post(`/secondClick/${gameId}`, {source, destination});
     return data; // {}
