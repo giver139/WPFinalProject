@@ -14,7 +14,7 @@ app.use(express.json());
 
 app.use('/api',router);
 
-const port = Number(process.env.PORT ?? 4000);
+const port = Number(process.env.PORT || 4000);
 const server = createServer(app);
 const wss = new WebSocketServer({server});
 wss.on('connection', onWssConnection);
