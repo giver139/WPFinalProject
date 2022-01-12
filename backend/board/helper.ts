@@ -72,8 +72,8 @@ export function checkFirstMoveBoard(board: Board): Boolean {
   return true;
 }
 
-export function flipChess(chess: Chess): Chess {
-  if (chess.chessNo !== ChessNo.COVERED) {
+export function flipChess(oriChess: Chess, chess: Chess): Chess {
+  if (oriChess.chessNo !== ChessNo.COVERED) {
     throw new FlipChessError;
   }
   let colorOrder = [Color.BLACK, Color.RED];
