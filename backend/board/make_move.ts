@@ -1,7 +1,7 @@
 import {InvalidSourceSelectionError, InvalidDestinationSelectionError} from './error';
 import {Game} from '../models/game';
 import {Color, Move, toMove, Board, ChessNo} from '../board/models';
-import {checkFirstMoveBoard, flipChess} from '../board/helper'
+import {checkFirstMoveBoard, flipChess, canMoveOneStep} from '../board/helper'
 
 export function makeMove(game: Game, color: Color, move: Move, username: string): Move {
   let board = new Board(game.board);
@@ -24,6 +24,9 @@ export function makeMove(game: Game, color: Color, move: Move, username: string)
   else {
     if (board.board[move.source.index].color !== color) {
       throw new InvalidSourceSelectionError;
+    }
+    if (canMoveOneStep(move.source, move.destination) === false) {
+      throw new InvalidDestinationSelectionError;
     }
     // move
     if (board.board[move.destination.index].color !== color) {
