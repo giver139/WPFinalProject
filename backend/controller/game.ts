@@ -7,7 +7,7 @@ import {startGame} from '../game/start_game';
 import {getValidMovesFromSource} from '../game/get_valid_moves_from_source';
 import {confirmMove} from '../game/confirm_move';
 import {PlayerNumberUnmatchError} from '../game/error';
-import {InvalidSourceSelectionError, NoPossibleDestinationError, InvalidDestinationSelectionError} from '../board/error';
+import {InvalidSourceSelectionError, NoPossibleDestinationError, InvalidDestinationSelectionError, FlipChessError} from '../board/error';
 import {isInteger} from '../utils';
 
 function hasGameId(data: unknown): data is {gameId: number} {
@@ -150,8 +150,11 @@ export async function secondClick(req: Request, res: Response): Promise<void> {
     else if(err instanceof InvalidDestinationSelectionError) {
       res.status(403).json({error: 'invalid destination selection'});
     }
+    else if(err instanceof FlipChessError) {
+      res.status(403).json({error: 'invalid flip selection'});
+    }
     else {
-      res.status(500).json({error: 'get valid destination error'});
+      res.status(500).json({error: 'confirm move error'});
     }
   }
 }
