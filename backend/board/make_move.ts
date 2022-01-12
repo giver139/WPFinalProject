@@ -29,7 +29,7 @@ export function makeMove(game: Game, color: Color, move: Move, username: string)
     if (canMoveOneStep(board.board[move.source.index], board.board[move.destination.index]) === false) {
       throw new InvalidDestinationSelectionError;
     }
-    if (getValidDestinations(game, color, move.source).includes(move) === false) {
+    if (getValidDestinations(game, color, move.source).filter(_ => _.destination.index === move.destination.index).length === 0) {
       throw new InvalidDestinationSelectionError;
     }
     // move
