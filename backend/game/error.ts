@@ -34,3 +34,12 @@ export class UserNotInGameError extends Error {
   }
 }
 
+export class NotCurrentPlayerError extends Error {
+  name: string;
+  constructor() {
+    super('user is not current player');
+    this.name = 'NotCurrentPlayerError';
+    Object.setPrototypeOf(this, NotCurrentPlayerError.prototype);
+  }
+}
+

@@ -6,7 +6,7 @@ import {checkUserInGame} from '../game/check_user_in_game';
 import {startGame} from '../game/start_game';
 import {getValidMovesFromSource} from '../game/get_valid_moves_from_source';
 import {confirmMove} from '../game/confirm_move';
-import {PlayerNumberUnmatchError} from '../game/error';
+import {PlayerNumberUnmatchError, NotCurrentPlayerError} from '../game/error';
 import {InvalidSourceSelectionError, NoPossibleDestinationError, InvalidDestinationSelectionError, FlipChessError} from '../board/error';
 import {isInteger} from '../utils';
 
@@ -113,6 +113,9 @@ export async function firstClick(req: Request, res: Response): Promise<void> {
     else if(err instanceof NoPossibleDestinationError) {
       res.status(403).json({error: 'no possible destination'});
     }
+    else if(err instanceof NotCurrentPlayerError) {
+      res.status(403).json({error: 'not your turn to move'});
+    }
     else {
       res.status(500).json({error: 'get valid destination error'});
     }
@@ -152,6 +155,9 @@ export async function secondClick(req: Request, res: Response): Promise<void> {
     }
     else if(err instanceof FlipChessError) {
       res.status(403).json({error: 'invalid flip selection'});
+    }
+    else if(err instanceof NotCurrentPlayerError) {
+      res.status(403).json({error: 'not your turn to move'});
     }
     else {
       res.status(500).json({error: 'confirm move error'});

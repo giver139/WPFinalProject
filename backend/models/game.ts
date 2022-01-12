@@ -7,6 +7,7 @@ export interface Game {
   players: string[];
   timestamp: Date;
   blackPlayer: number;
+  currentPlayer: number;
   initialBoard: number[];
   board: number[];
   noFlipEatCount: number;
@@ -23,6 +24,7 @@ const schema = new Schema<MongoGame>({
   players: {type: [String], required: true},
   timestamp: {type: Date, required: true},
   blackPlayer: {type: Number, required: true},
+  currentPlayer: {type: Number, required: true},
   initialBoard: {type: [Number], required: true},
   board: {type: [Number], required: true},
   noFlipEatCount: {type: Number, required: true},
