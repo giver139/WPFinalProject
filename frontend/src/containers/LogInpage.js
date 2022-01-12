@@ -26,7 +26,7 @@ const LogInpage = () => {
         setLoggedIn(true);
       } catch(error) {
         if(error instanceof IncorrectUsernameOrPasswordError) {
-          
+          alert("Incorrect Username or Password!!!");
         }
       }
     }

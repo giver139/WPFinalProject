@@ -38,10 +38,10 @@ const Homepage = () => {
       <h1>暗棋遊戲</h1>
     </Title>
     <Register>
-      <Button onClick={handleRegistered}>Register</Button>
+      <Button onClick={handleRegistered}>註冊</Button>
     </Register>
     <LogIn>
-      <Button onClick={handleLoggedIn}>Log in</Button>
+      <Button onClick={handleLoggedIn}>登入</Button>
     </LogIn>
   </div>)
   };

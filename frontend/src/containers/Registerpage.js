@@ -5,6 +5,7 @@ import Username from '../components/Username';
 import ConfirmButton from '../components/ConfirmButton';
 import Homepage from './Homepage';
 import {registerApi} from '../api';
+import { UsernameAlreadyExistsError } from '../error';
 
 const Registerpage = () => {
   const [username, setUsername] = useState("");
@@ -25,7 +26,9 @@ const Registerpage = () => {
         const {user} = await registerApi({username, password, nickname});
         setRegistered(true);
       } catch(error) {
-        // handle error
+        if(error instanceof UsernameAlreadyExistsError) {
+          alert("This Username is Already Used!!!");
+        }
       }
     }
   }

@@ -12,6 +12,7 @@ const Register = styled.div`
       background-color: black;
       color: white;
       margin: 100px;
+      font-family: 思源宋體;
     }
 `;
 

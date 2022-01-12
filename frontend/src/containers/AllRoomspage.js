@@ -5,6 +5,7 @@ import {useState} from "react";
 import ConfirmButton from '../components/ConfirmButton';
 import {joinRoomApi} from '../api'
 import BoardPage from "./Boardpage";
+import Gamepage from "./Gamepage";
 
 const AllRoomspage = ({username}) => {
 
@@ -15,6 +16,7 @@ const AllRoomspage = ({username}) => {
   };
 
   const [roomId, setRoomId] = useState(0);
+  const [reverse, setReverse] = useState(false);
   const [idCorrect, setIdCorrect] = useState(false);
   const [player1, setPlayer1] = useState('');
   const [player2, setPlayer2] = useState('');
@@ -32,9 +34,19 @@ const AllRoomspage = ({username}) => {
     }
   }
 
+  const handleOnReverse = () => {
+    setReverse(true);
+  }
+
   if(idCorrect) {
     return (
       <BoardPage username={username} player1={player1} player2={player2} roomID={roomId}></BoardPage>
+    )
+  }
+
+  else if(reverse) {
+    return (
+      <Gamepage username={username}></Gamepage>
     )
   }
 
@@ -42,13 +54,14 @@ const AllRoomspage = ({username}) => {
     return (
       <div className="roomspage" style={myStyle}>
         <Title>
-          <h1>{username} 加入房間</h1>
+          <h1>加入房間</h1>
         </Title>
         <Username>
           <Input placeholder="room ID" onChange={(event) => {setRoomId(() => event.target.value);}}></Input>
         </Username>
         <ConfirmButton>
             <Button onClick={handleOnClick}>確認</Button>
+            <Button onClick={handleOnReverse}>返回</Button>
         </ConfirmButton>
       </div>
     )

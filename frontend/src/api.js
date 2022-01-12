@@ -175,7 +175,7 @@ export async function startGameApi(roomId) {
 export async function firstClickApi(gameId, source) {
   try {
     const {data} = await api.get(`/firstClick/${gameId}`, {params: {source}});
-    return data; // {destination: {source: number, destination: number}[]}
+    return data; // {moves: {source: number, destination: number}[]}
   } catch(error) {
     if(error?.response?.status === 403) {
       const data = error.response.data.error;

@@ -19,7 +19,7 @@ import { firstClickApi, secondClickApi } from "../api";
 
 const chessImage = [bk, bg, bm, br, bn, bc, bp, rk, rg, rm, rr, rn, rc, rp, cover, cover];
 
-const BoardPage = ({username, player1, player2, roomID}) => {
+const BoardPage = ({username, player1, player2, roomID, source, moves, gameId}) => {
 
   const myStyle = {
     backgroundImage: "url('https://pic.52112.com/180317/180317_143/n4SNygWU7T_small.jpg')",
@@ -38,21 +38,17 @@ const BoardPage = ({username, player1, player2, roomID}) => {
     alignSelf: 'center',
   }
 
-
   const [board, setBoard] = useState(new Array(32).fill(14));
-  const [gameId, setGameId] = useState(0);
-  const [source, setSource] = useState(0);
   const [firstClicked, setFirstClicked] = useState(false)
-  const [destination, setDestination] = useState(0);
 
   const handleOnClick = async () => {
     try {
       if(firstClicked) {
-        const {destination2} = await secondClickApi(gameId, source, destination);
+        const {destination} = await secondClickApi(gameId, source, moves);
         setFirstClicked(false);
       }
       else {
-        const {destination} = await firstClickApi(gameId, source); 
+        const {moves} = await firstClickApi(gameId, source); 
         setFirstClicked(true)
       }
     } catch(error) {
@@ -63,7 +59,7 @@ const BoardPage = ({username, player1, player2, roomID}) => {
   console.log(board);
   return (
     <div className="Boardpage" style={myStyle}>
-      <h3>{username} Game</h3>
+      <h3>Unrated Game</h3>
       <h3>{player1} vs {player2}</h3>
       <h3>Room ID: {roomID}</h3>
       <Board>{board.map((chess_id,index) => (<div style = {blocks} key={index*100+chess_id}>

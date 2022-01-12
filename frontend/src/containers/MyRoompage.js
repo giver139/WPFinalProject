@@ -6,6 +6,7 @@ import BoardPage from "./Boardpage";
 import Gamepage from "./Gamepage";
 import { useContext } from "react";
 import { leaveRoomApi, startGameApi } from "../api";
+import { PlayerNumberUnmatchError } from "../error";
 
 const MyRoompage = ({username, roomID}) => {
 
@@ -13,6 +14,7 @@ const MyRoompage = ({username, roomID}) => {
   const [leave, setLeave] = useState(false);
   const [player1, setPlayer1] = useState('');
   const [player2, setPlayer2] = useState('');
+  const [gameId, setGameId] = useState(0);
 
   const myStyle = {
     backgroundImage: "url('https://pic.52112.com/180317/180317_143/n4SNygWU7T_small.jpg')",
@@ -26,8 +28,11 @@ const MyRoompage = ({username, roomID}) => {
       setStartGame(true);
       setPlayer1(game.players[0])
       setPlayer2(game.players[1])
+      setGameId(game.gameId)
     } catch(error) {
-      
+      if(error instanceof PlayerNumberUnmatchError) {
+        alert("Player Number is not 2!!!")
+      }
     }
   }
 
@@ -42,13 +47,13 @@ const MyRoompage = ({username, roomID}) => {
 
   if(startGame) {
     return (
-      <BoardPage username={username} player1={player1} player2={player2} roomID={roomID}></BoardPage>
+      <BoardPage username={username} player1={player1} player2={player2} roomID={roomID} gameId={gameId}></BoardPage>
     )
   }
 
   else if(leave) {
     return (
-      <Gamepage></Gamepage>
+      <Gamepage username={username}></Gamepage>
     )
   }
 
@@ -56,7 +61,7 @@ const MyRoompage = ({username, roomID}) => {
     return (
       <div className="roomspage" style={myStyle}>
         <Title>
-          <h1>{username} 我的房間</h1>
+          <h1>{username}的房間</h1>
         </Title>
         <Title>
           <h2>Room ID: {roomID}</h2>

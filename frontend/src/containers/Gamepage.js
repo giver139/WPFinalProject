@@ -6,11 +6,8 @@ import Title from '../components/Title';
 import MyRoompage from './MyRoompage';
 import AllRoomspage from './AllRoomspage';
 import { createRoomApi } from '../api';
-import {createContext} from "react";
 
 const Gamepage = ({username}) => {
-
-  const idContext = createContext();
 
   const myStyle = {
     backgroundImage: "url('https://pic.52112.com/180317/180317_143/n4SNygWU7T_small.jpg')",
@@ -53,7 +50,7 @@ const Gamepage = ({username}) => {
     return (
       <div className='Gamepage' style = {myStyle}>
         <Title>
-          <h1>開始遊戲 {username}</h1>
+          <h1>開始遊戲</h1>
         </Title>
         <CreateRoom>
           <Button onClick={handleOnCreate}>創建房間</Button>
