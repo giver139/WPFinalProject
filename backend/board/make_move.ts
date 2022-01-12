@@ -22,6 +22,9 @@ export function makeMove(game: Game, color: Color, move: Move, username: string)
     game.noFlipEatCount = 0;
   }
   else {
+    if (board.board[move.source.index].color !== color) {
+      throw new InvalidSourceSelectionError;
+    }
     // move
     if (board.board[move.destination.index].color !== color) {
       game.noFlipEatCount = 0;
