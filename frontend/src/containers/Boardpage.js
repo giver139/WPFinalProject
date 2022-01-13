@@ -39,6 +39,8 @@ const BoardPage = ({username, player1, player2, roomID, gameId}) => {
     border: '2px solid black',
     alignItems: 'center',
     alignSelf: 'center',
+    display: 'flex',
+    justifyContent: 'center',
   }
 
   function SelectThis(thisElement) {
