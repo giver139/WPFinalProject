@@ -7,7 +7,7 @@ import Gamepage from "./Gamepage";
 import { leaveRoomApi, startGameApi } from "../api";
 import { PlayerNumberUnmatchError, InternalServerError } from "../error";
 
-const MyRoompage = ({username, roomID}) => {
+const MyRoompage = ({username, roomID, host}) => {
 
   const [startGame, setStartGame] = useState(false);
   const [leave, setLeave] = useState(false);
@@ -23,12 +23,16 @@ const MyRoompage = ({username, roomID}) => {
 
   const handleOnStart = async () => {
     try {
-      const {game} = await startGameApi(roomID) ;
-      setPlayer1(game.players[0])
-      setPlayer2(game.players[1])
-      setGameId(game.gameId)
-      console.log(gameId);
-      setStartGame(true);
+      if(username === host) {
+        const {game} = await startGameApi(roomID) ;
+        setPlayer1(game.players[0])
+        setPlayer2(game.players[1])
+        setGameId(game.gameId)
+        setStartGame(true);
+      }
+      else {
+        alert("You are not the Host Player!!!")
+      }
     } catch(error) {
       if(error instanceof PlayerNumberUnmatchError) {
         alert("Player Number is not 2!!!")
@@ -63,7 +67,7 @@ const MyRoompage = ({username, roomID}) => {
     return (
       <div className="roomspage" style={myStyle}>
         <Title>
-          <h1>{username}的房間</h1>
+          <h1>{host}的房間</h1>
         </Title>
         <Title>
           <h2>Room ID: {roomID}</h2>

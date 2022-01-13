@@ -19,6 +19,7 @@ const Gamepage = ({username}) => {
   const [joined, setJoined] = useState(false);
   const [created, setCreated] = useState(false);
   const [roomID, setRoomID] = useState(-1);
+  const [host, setHost] = useState("");
 
   const handleOnJoin = () => {
     setJoined(true);
@@ -30,6 +31,7 @@ const Gamepage = ({username}) => {
       console.log(room);
       setCreated(true);
       setRoomID(room.roomId);
+      setHost(room.players[0]);
     } catch(error) {
       if(error instanceof InternalServerError) {
         console.log("Internal Server Error!!");
@@ -43,7 +45,7 @@ const Gamepage = ({username}) => {
 
   if(created) {
     return (
-      <MyRoompage username={username} roomID = {roomID}></MyRoompage>
+      <MyRoompage username={username} roomID = {roomID} host = {host}></MyRoompage>
     )
   }
 

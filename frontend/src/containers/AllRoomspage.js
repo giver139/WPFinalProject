@@ -4,9 +4,9 @@ import Username from '../components/Username';
 import {useState} from "react";
 import ConfirmButton from '../components/ConfirmButton';
 import {joinRoomApi} from '../api'
-import BoardPage from "./Boardpage";
 import Gamepage from "./Gamepage";
 import { RequireLoginError , InternalServerError, RoomIdNotFoundError } from "../error";
+import MyRoompage from "./MyRoompage";
 
 const AllRoomspage = ({username}) => {
 
@@ -51,7 +51,7 @@ const AllRoomspage = ({username}) => {
 
   if(idCorrect) {
     return (
-      <BoardPage username={username} player1={player1} player2={player2} roomID={roomId}></BoardPage>
+      <MyRoompage username={username} host={player1} guest={player2} roomID={roomId}></MyRoompage>
     )
   }
 
