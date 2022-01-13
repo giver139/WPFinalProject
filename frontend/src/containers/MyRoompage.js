@@ -55,7 +55,7 @@ const MyRoompage = ({username, roomID}) => {
 
   else if(leave) {
     return (
-      <Gamepage username={username}></Gamepage>
+      <Gamepage username={username} roomID={roomID}></Gamepage>
     )
   }
 
