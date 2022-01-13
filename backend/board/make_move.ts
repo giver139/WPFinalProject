@@ -7,8 +7,6 @@ import {getValidDestinations} from '../board/get_valid_destinations'
 export function makeMove(game: Game, color: Color, move: Move, username: string): Move {
   let board = new Board(game.board);
   let initBoard = new Board(game.initialBoard);
-  console.log('move = ', move)
-  console.log(move.source.index, move.destination.index)
   if (checkFirstMoveBoard(board)) {
     if (move.source.index !== move.destination.index) {
       throw new InvalidDestinationSelectionError;
@@ -25,7 +23,6 @@ export function makeMove(game: Game, color: Color, move: Move, username: string)
     game.noFlipEatCount = 0;
   }
   else if (move.source.index === move.destination.index) {
-    console.log('here flip');
     // flip
     board.board[move.source.index] = flipChess(board.board[move.source.index], initBoard.board[move.source.index]);
     game.noFlipEatCount = 0;
@@ -50,6 +47,5 @@ export function makeMove(game: Game, color: Color, move: Move, username: string)
     board.board[move.source.index].chessType.chessNo = ChessNo.EMPTY;
   }
   game.board = board.toChessNoArray();
-  console.log(game);
   return move;
 }
