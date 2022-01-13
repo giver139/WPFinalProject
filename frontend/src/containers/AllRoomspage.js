@@ -6,7 +6,7 @@ import ConfirmButton from '../components/ConfirmButton';
 import {joinRoomApi} from '../api'
 import BoardPage from "./Boardpage";
 import Gamepage from "./Gamepage";
-import { RequireLoginError , InternalServerError } from "../error";
+import { RequireLoginError , InternalServerError, RoomIdNotFoundError } from "../error";
 
 const AllRoomspage = ({username}) => {
 
@@ -36,6 +36,10 @@ const AllRoomspage = ({username}) => {
 
         else if(error instanceof RequireLoginError) {
           alert("Please Log In Again!!!");
+        }
+
+        else if(error instanceof RoomIdNotFoundError) {
+          alert("RoomId Not Found!!!");
         }
       }
     }

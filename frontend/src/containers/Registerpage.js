@@ -6,14 +6,12 @@ import ConfirmButton from '../components/ConfirmButton';
 import Homepage from './Homepage';
 import {registerApi} from '../api';
 import { InternalServerError, UsernameAlreadyExistsError } from '../error';
-import InternalPreviewGroup from 'antd/lib/image/PreviewGroup';
 
 const Registerpage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [nickname, setNickname] = useState("");
   const [registered, setRegistered] = useState(false);
-  const bodyRef = useRef(null);
 
   const myStyle = {
     backgroundImage: "url('https://pic.52112.com/180317/180317_143/n4SNygWU7T_small.jpg')",

@@ -4,7 +4,6 @@ import { Button } from "antd";
 import {useState} from "react";
 import BoardPage from "./Boardpage";
 import Gamepage from "./Gamepage";
-import { useContext } from "react";
 import { leaveRoomApi, startGameApi } from "../api";
 import { PlayerNumberUnmatchError, InternalServerError } from "../error";
 
@@ -25,10 +24,11 @@ const MyRoompage = ({username, roomID}) => {
   const handleOnStart = async () => {
     try {
       const {game} = await startGameApi(roomID) ;
-      setStartGame(true);
       setPlayer1(game.players[0])
       setPlayer2(game.players[1])
       setGameId(game.gameId)
+      console.log(gameId);
+      setStartGame(true);
     } catch(error) {
       if(error instanceof PlayerNumberUnmatchError) {
         alert("Player Number is not 2!!!")

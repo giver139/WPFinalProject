@@ -39,6 +39,8 @@ const BoardPage = ({username, player1, player2, roomID, gameId}) => {
   const pictures = {
     display: 'flex',
     alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
   }
 
   const [board, setBoard] = useState(new Array(32).fill(14));
@@ -47,12 +49,14 @@ const BoardPage = ({username, player1, player2, roomID, gameId}) => {
   const handleOnClick = async (index) => {
     try {
       if(!firstClicked) {
-        const {moves} = await firstClickApi(gameId, index); 
+        const {moves} = await firstClickApi(gameId, index);
+        console.log('first clicked!!') 
         setFirstClicked(true);
         setSource(index);
       }
       else {
         await secondClickApi(gameId, source, index);
+        console.log('second clicked!!')
         setFirstClicked(false);
         setSource(-1);
       }
