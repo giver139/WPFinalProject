@@ -36,19 +36,17 @@ const BoardPage = ({username, player1, player2, roomID, gameId}) => {
   const blocks = {
     height: '75px',
     width: '75px',
-    border: '2px solid',
+    border: '2px solid black',
     alignItems: 'center',
     alignSelf: 'center',
   }
 
   function SelectThis(thisElement) {
-    thisElement.classList.remove("unSelected")
     thisElement.classList.add("selected");
   }
 
   function UnSelectThis(thisElement) {
     thisElement.classList.remove("selected");
-    thisElement.classList.add("unSelected");
   }
 
   const [board, setBoard] = useState(new Array(32).fill(14));
@@ -56,7 +54,7 @@ const BoardPage = ({username, player1, player2, roomID, gameId}) => {
   const [nowPlayer, setNowPlayer] = useState(player1);
   const [player1Color, setPlayer1Color] = useState("red");
   const [player2Color, setPlayer2Color] = useState("black");
-  const [won, setWon] = useState()
+  const [won, setWon] = useState(false);
 
   const handleMakeMove = (game, move) => {
     setBoard(game.board)
