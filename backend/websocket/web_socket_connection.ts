@@ -4,6 +4,8 @@ import {UserView} from '../views/user';
 import {RoomView} from '../views/room';
 import {GameView} from '../views/game';
 import {MoveView} from '../views/move';
+import {readToken} from '../controller/auth';
+import {isUserToken} from '../controller/user_token';
 
 enum ConnectionState {
   INITIALIZING = 'INITIALIZING',
@@ -20,6 +22,11 @@ enum OperationType {
   LEAVE_ROOM = 'LEAVE_ROOM',
   START_GAME = 'START_GAME',
   MAKE_MOVE = 'MAKE_MOVE',
+}
+
+interface AuthorizationPayload {
+  state: ConnectionState.INITIALIZING;
+  token: string;
 }
 
 interface StatePayload {
@@ -39,6 +46,11 @@ function isConnectionState(data: unknown): data is ConnectionState {
   }
 }
 
+function isAuthorizationPayload(data: unknown): data is AuthorizationPayload {
+  const payload = data as AuthorizationPayload;
+  return payload.state === ConnectionState.INITIALIZING && typeof payload.token === 'string';
+}
+
 function isStatePayload(data: unknown): data is StatePayload {
   const payload = data as StatePayload;
   return typeof payload.id === 'number' && isInteger(payload.id) && isConnectionState(payload.state);
@@ -46,8 +58,8 @@ function isStatePayload(data: unknown): data is StatePayload {
 
 export class WebSocketConnection {
   private static readonly connections: WebSocketConnection[] = [];
-  static createConnection(ws: WebSocket, username: string): void {
-    WebSocketConnection.connections.push(new WebSocketConnection(ws, username));
+  static createConnection(ws: WebSocket): void {
+    WebSocketConnection.connections.push(new WebSocketConnection(ws));
   }
   static broadcastNewRoom(room: RoomView): void {
     const targets = WebSocketConnection.connections.filter((connection) => connection.state === ConnectionState.MAIN);
@@ -88,10 +100,12 @@ export class WebSocketConnection {
 
   private state: ConnectionState;
   private id: number;
+  private user: string;
 
-  constructor(private readonly ws: WebSocket, private readonly user: string) {
+  constructor(private readonly ws: WebSocket) {
     this.state = ConnectionState.INITIALIZING;
     this.id = 0;
+    this.user = '';
     this.ws.on('message', this.onData);
     this.ws.on('close', this.onClose);
   }
@@ -104,11 +118,27 @@ export class WebSocketConnection {
     this.ws.send(JSON.stringify(data));
   }
 
-  private async onData(rawData: RawData): Promise<void> {
+  private onData = async (rawData: RawData): Promise<void> => {
     try {
       const data = JSON.parse(rawData.toString());
+      if(isAuthorizationPayload(data)) {
+        const token = data.token;
+        if(token === '') {
+          this.user = '';
+          return;
+        }
+        const jwtPayload = readToken(token);
+        if(!isUserToken(jwtPayload)) {
+          throw new Error('invalid token content');
+        }
+        this.user = jwtPayload.username;
+        return;
+      }
+      if(this.user === '') {
+        throw new Error('user has not authorized');
+      }
       if(!isStatePayload(data)) {
-        throw new Error('invalid initialization payload');
+        throw new Error('invalid state payload');
       }
       if((data.state === ConnectionState.HOME || data.state === ConnectionState.MAIN) && data.id !== 0) {
         throw new Error('invalid id');
@@ -123,7 +153,7 @@ export class WebSocketConnection {
     }
   }
   
-  private async onClose(): Promise<void> {
+  private onClose = async (): Promise<void> => {
     const index = WebSocketConnection.connections.indexOf(this);
     if(index !== -1) {
       WebSocketConnection.connections.splice(index, 1);
