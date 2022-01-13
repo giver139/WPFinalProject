@@ -16,10 +16,12 @@ import rm from "../chessPieces/rm.png";
 import rn from "../chessPieces/rn.png";
 import rp from "../chessPieces/rp.png";
 import rr from "../chessPieces/rr.png";
+import empty from "../chessPieces/empty.png";
+import "./Select.css";
 import { firstClickApi, secondClickApi } from "../api";
 import { InvalidDestinationSelectionError, InvalidSourceSelectionError, NoPossibleDestinationError, RequireLoginError, InternalServerError, NotYourTurnError } from "../error";
 
-const chessImage = [bk, bg, bm, br, bn, bc, bp, rk, rg, rm, rr, rn, rc, rp, cover, cover];
+const chessImage = [bk, bg, bm, br, bn, bc, bp, rk, rg, rm, rr, rn, rc, rp, cover, empty];
 
 const BoardPage = ({username, player1, player2, roomID, gameId}) => {
 
@@ -52,10 +54,21 @@ const BoardPage = ({username, player1, player2, roomID, gameId}) => {
     border: '5px solid red',
   }
 
-  let picture_style = unselected_pictures;
+  function SelectThis(thisElement) {
+    thisElement.classList.add("selected");
+    thisElement.classList.remove("unSelected")
+  }
+
+  function UnSelectThis(thisElement) {
+    thisElement.classList.remove("selected");
+    thisElement.classList.add("unSelected");
+  }
 
   const [board, setBoard] = useState(new Array(32).fill(14));
   const [firstClicked, setFirstClicked] = useState(false);
+  const [nowPlayer, setNowPlayer] = useState(player1);
+  const [player1Color, setPlayer1Color] = useState("red");
+  const [player2Color, setPlayer2Color] = useState("black");
 
   const handleMakeMove = (game, move) => {
     setBoard(game.board)
@@ -76,12 +89,14 @@ const BoardPage = ({username, player1, player2, roomID, gameId}) => {
         console.log('first clicked!!') 
         setFirstClicked(true);
         setSource(index);
+        SelectThis(this);
       }
       else {
         await secondClickApi(gameId, source, index);
         console.log('second clicked!!')
         setFirstClicked(false);
         setSource(-1);
+        UnSelectThis(this);
       }
     } catch(error) {
       if(error instanceof InvalidDestinationSelectionError) {
@@ -116,8 +131,10 @@ const BoardPage = ({username, player1, player2, roomID, gameId}) => {
       <h3>Unrated Game</h3>
       <h3>{player1} vs {player2}</h3>
       <h3>Room ID: {roomID}</h3>
+      <h3>It's {nowPlayer}'s turn</h3>
+      <h3>{player1}: {player1Color},   {player2}: {player2Color}</h3>
       <Board>{board.map((chess_id, index) => (<div style = {blocks} key={index*100+chess_id}>
-      <img src = {chessImage[chess_id]} style={picture_style} onClick={() => {handleOnClick(index);}} id="{chessId}" />
+      <img src = {chessImage[chess_id]} onClick={() => {handleOnClick(index);}} />
       </div>))}</Board>
     </div>
   )

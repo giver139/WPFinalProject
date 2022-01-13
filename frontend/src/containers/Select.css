@@ -1,0 +1,14 @@
+.selected {
+  display: 'flex';
+  align-self: 'center';
+  align-items: 'center';
+  justify-content: 'center';
+  border: '5px solid red';
+}
+
+.unSelected {
+  display: 'flex';
+  align-self: 'center';
+  align-items: 'center';
+  justify-content: 'center';
+}
