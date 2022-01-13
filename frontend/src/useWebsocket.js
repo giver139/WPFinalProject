@@ -8,6 +8,7 @@ export const WebSocketState = Object.freeze({
 });
 
 export const ConnectionState = Object.freeze({
+  INITIALIZING: 'INITIALIZING',
   HOME: 'HOME',
   MAIN: 'MAIN',
   ROOM: 'ROOM',
@@ -33,6 +34,13 @@ async function sendData(data) {
 async function sendConnectionState(connectionState, id = 0) {
   sendData({state: connectionState, id});
 }
+
+client.addEventListener('open', () => {
+  const token = localStorage.getItem('user');
+  if(token) {
+    sendData({state: ConnectionState.INITIALIZING, token: `Bearer ${token}`});
+  }
+}, {once: true});
 
 function createOnDataHandler({handleNewRoom, handleCloseRoom, handleJoinRoom, handleLeaveRoom, handleStartGame, handleMakeMove}) {
   return async (event: MessageEvent) => {
@@ -78,7 +86,7 @@ export function useWebsocket({handleNewRoom, handleCloseRoom, handleJoinRoom, ha
   const [state, setState] = useState(client.readyState);
 
   client.addEventListener('open', () => {setState(() => WebSocketState.OPEN);}, {once: true});
-  
+ 
   useEffect(() => {
     const onData = createOnDataHandler({handleNewRoom, handleCloseRoom, handleJoinRoom, handleLeaveRoom, handleStartGame, handleMakeMove});
     client.addEventListener('message', onData);

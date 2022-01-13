@@ -33,7 +33,7 @@ const MyRoompage = ({username, roomID, host}) => {
   const {state, sendConnectionState} = useWebsocket({handleStartGame});
   useEffect(() => {
     if (state === WebSocketState.OPEN) {
-      sendConnectionState(ConnectionState.ROOM);
+      sendConnectionState(ConnectionState.ROOM, roomID);
     }
   }, [state]);
 
