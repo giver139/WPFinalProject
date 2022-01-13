@@ -12,6 +12,7 @@ const Registerpage = () => {
   const [password, setPassword] = useState("");
   const [nickname, setNickname] = useState("");
   const [registered, setRegistered] = useState(false);
+  const [reverse, setReverse] = useState(false);
 
   const myStyle = {
     backgroundImage: "url('https://pic.52112.com/180317/180317_143/n4SNygWU7T_small.jpg')",
@@ -36,8 +37,16 @@ const Registerpage = () => {
     }
   }
 
+  const handleOnReverse = () => {
+    setReverse(true);
+  }
+
   if(registered) {
     return (<Homepage></Homepage>);
+  }
+
+  else if(reverse) {
+    return (<Homepage></Homepage>); 
   }
 
   else {
@@ -60,6 +69,7 @@ const Registerpage = () => {
         </Username> 
         <ConfirmButton>
           <Button onClick={handleOnClick}>確認</Button>
+          <Button onClick={handleOnReverse}>返回</Button>
         </ConfirmButton> 
       </div>
     )

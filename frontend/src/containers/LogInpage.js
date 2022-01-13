@@ -6,10 +6,12 @@ import ConfirmButton from '../components/ConfirmButton';
 import {loginApi} from '../api';
 import Gamepage from './Gamepage';
 import { IncorrectUsernameOrPasswordError, InternalServerError } from '../error';
+import Homepage from './Homepage';
 
 const LogInpage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [reverse, setReverse] = useState(false);
 
   const myStyle = {
     backgroundImage: "url('https://pic.52112.com/180317/180317_143/n4SNygWU7T_small.jpg')",
@@ -36,9 +38,19 @@ const LogInpage = () => {
     }
   }
 
+  const handleOnReverse = () => {
+    setReverse(true);
+  }
+
   if(loggedIn) {
     return (
       <Gamepage username={username}></Gamepage>
+    )
+  }
+
+  else if(reverse) {
+    return (
+      <Homepage></Homepage>
     )
   }
 
@@ -56,6 +68,7 @@ const LogInpage = () => {
         </Username>
         <ConfirmButton>
           <Button onClick={handleOnClick}>確認</Button>
+          <Button onClick={handleOnReverse}>返回</Button>
         </ConfirmButton> 
       </div>
     )

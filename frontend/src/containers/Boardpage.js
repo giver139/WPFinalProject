@@ -36,15 +36,25 @@ const BoardPage = ({username, player1, player2, roomID, gameId}) => {
     border: '2px solid',
   }
   
-  const pictures = {
+  const unselected_pictures = {
     display: 'flex',
     alignSelf: 'center',
     alignItems: 'center',
     justifyContent: 'center',
   }
 
+  const selected_pictures = {
+    display: 'flex',
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    border: '5px solid red',
+  }
+
+  let picture_style = unselected_pictures;
+
   const [board, setBoard] = useState(new Array(32).fill(14));
-  const [firstClicked, setFirstClicked] = useState(false)
+  const [firstClicked, setFirstClicked] = useState(false);
 
   const handleOnClick = async (index) => {
     try {
@@ -94,7 +104,7 @@ const BoardPage = ({username, player1, player2, roomID, gameId}) => {
       <h3>{player1} vs {player2}</h3>
       <h3>Room ID: {roomID}</h3>
       <Board>{board.map((chess_id, index) => (<div style = {blocks} key={index*100+chess_id}>
-      <img src = {chessImage[chess_id]} style={pictures} onClick={() => {handleOnClick(index);}}/>
+      <img src = {chessImage[chess_id]} style={picture_style} onClick={() => {handleOnClick(index);}} id="{chessId}" />
       </div>))}</Board>
     </div>
   )
