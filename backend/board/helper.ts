@@ -77,7 +77,7 @@ export function flipChess(oriChess: Chess, chess: Chess): Chess {
     throw new FlipChessError;
   }
   let colorOrder = [Color.BLACK, Color.RED];
-  let typeOrder = [Type.KING, Type.GUARD, Type.MINISTER, Type.ROOK, Type.KING, Type.CANNON, Type.PAWN];
+  let typeOrder = [Type.KING, Type.GUARD, Type.MINISTER, Type.ROOK, Type.KNIGHT, Type.CANNON, Type.PAWN];
   let chessNoOrder = [ChessNo.BLACK_KING, ChessNo.BLACK_GUARD, ChessNo.BLACK_MINISTER, ChessNo.BLACK_ROOK, ChessNo.BLACK_KNIGHT, ChessNo.BLACK_CANNON, ChessNo.BLACK_PAWN, ChessNo.RED_KING, ChessNo.RED_GUARD, ChessNo.RED_MINISTER, ChessNo.RED_ROOK, ChessNo.RED_KNIGHT, ChessNo.RED_CANNON, ChessNo.RED_PAWN];
   chess.chessType.chessNo = chessNoOrder[7 * colorOrder.indexOf(chess.color) + typeOrder.indexOf(chess.type)];
   return chess;

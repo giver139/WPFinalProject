@@ -10,6 +10,9 @@ export function makeMove(game: Game, color: Color, move: Move, username: string)
   console.log('move = ', move)
   console.log(move.source.index, move.destination.index)
   if (checkFirstMoveBoard(board)) {
+    if (move.source.index !== move.destination.index) {
+      throw new InvalidDestinationSelectionError;
+    }
     // find out the real black player
     color = board.board[move.source.index].color;
     if (color === Color.BLACK) {
