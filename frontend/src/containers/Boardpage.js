@@ -111,6 +111,10 @@ const BoardPage = ({username, player1, player2, roomID, gameId}) => {
     }
   }
 
+  const test = {
+    margin: '3px',
+  }
+
   console.log(board);
   return (
     <div className="Boardpage" style={myStyle}>
@@ -120,7 +124,7 @@ const BoardPage = ({username, player1, player2, roomID, gameId}) => {
       <h3>It's {nowPlayer}'s turn</h3>
       <h3>{player1}: <img src = {rk}/>,   {player2}: <img src={bk}/></h3>
       <Board>{board.map((chess_id, index) => (<div style = {blocks} key={index*100+chess_id}>
-      <img src = {chessImage[chess_id]} onClick={(event) => {handleOnClick(index, event);}} />
+      <img src = {chessImage[chess_id]} onClick={(event) => {handleOnClick(index, event);}} style={test}/>
       </div>))}</Board>
     </div>
   )
