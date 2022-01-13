@@ -37,26 +37,13 @@ const BoardPage = ({username, player1, player2, roomID, gameId}) => {
     height: '75px',
     width: '75px',
     border: '2px solid',
-  }
-  
-  const unselected_pictures = {
-    display: 'flex',
-    alignSelf: 'center',
     alignItems: 'center',
-    justifyContent: 'center',
-  }
-
-  const selected_pictures = {
-    display: 'flex',
     alignSelf: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-    border: '5px solid red',
   }
 
   function SelectThis(thisElement) {
-    thisElement.classList.add("selected");
     thisElement.classList.remove("unSelected")
+    thisElement.classList.add("selected");
   }
 
   function UnSelectThis(thisElement) {
@@ -69,6 +56,7 @@ const BoardPage = ({username, player1, player2, roomID, gameId}) => {
   const [nowPlayer, setNowPlayer] = useState(player1);
   const [player1Color, setPlayer1Color] = useState("red");
   const [player2Color, setPlayer2Color] = useState("black");
+  const [won, setWon] = useState()
 
   const handleMakeMove = (game, move) => {
     setBoard(game.board)
@@ -81,7 +69,7 @@ const BoardPage = ({username, player1, player2, roomID, gameId}) => {
     }
   }, [state]);
 
-  const handleOnClick = async (index) => {
+  const handleOnClick = async (index, event) => {
     try {
       if(!firstClicked) {
         console.log('game = ', gameId)
@@ -89,14 +77,14 @@ const BoardPage = ({username, player1, player2, roomID, gameId}) => {
         console.log('first clicked!!') 
         setFirstClicked(true);
         setSource(index);
-        SelectThis(this);
+        SelectThis(event.target);
       }
       else {
         await secondClickApi(gameId, source, index);
         console.log('second clicked!!')
         setFirstClicked(false);
         setSource(-1);
-        UnSelectThis(this);
+        UnSelectThis(event.target);
       }
     } catch(error) {
       if(error instanceof InvalidDestinationSelectionError) {
@@ -132,9 +120,9 @@ const BoardPage = ({username, player1, player2, roomID, gameId}) => {
       <h3>{player1} vs {player2}</h3>
       <h3>Room ID: {roomID}</h3>
       <h3>It's {nowPlayer}'s turn</h3>
-      <h3>{player1}: {player1Color},   {player2}: {player2Color}</h3>
+      <h3>{player1}: <img src = {rk}/>,   {player2}: <img src={bk}/></h3>
       <Board>{board.map((chess_id, index) => (<div style = {blocks} key={index*100+chess_id}>
-      <img src = {chessImage[chess_id]} onClick={() => {handleOnClick(index);}} />
+      <img src = {chessImage[chess_id]} onClick={(event) => {handleOnClick(index, event);}} />
       </div>))}</Board>
     </div>
   )
