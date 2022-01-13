@@ -28,10 +28,9 @@ const Gamepage = ({username}) => {
   const handleOnCreate = async () => {
     try {
       const {room} = await createRoomApi();
-      console.log(room);
-      setCreated(true);
       setRoomID(room.roomId);
       setHost(room.players[0]);
+      setCreated(true);
     } catch(error) {
       if(error instanceof InternalServerError) {
         console.log("Internal Server Error!!");

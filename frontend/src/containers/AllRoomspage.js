@@ -16,7 +16,8 @@ const AllRoomspage = ({username}) => {
     height: '675px',
   };
 
-  const [roomId, setRoomId] = useState(0);
+  const [roomId, setRoomId] = useState('');
+  const [roomID, setRoomID] = useState(0);
   const [reverse, setReverse] = useState(false);
   const [idCorrect, setIdCorrect] = useState(false);
   const [player1, setPlayer1] = useState('');
@@ -26,9 +27,10 @@ const AllRoomspage = ({username}) => {
     if(roomId !== "") {
       try {
         const {room} = await joinRoomApi(roomId);
-        setIdCorrect(true);
         setPlayer1(room.players[0])
         setPlayer2(room.players[1])
+        setRoomID(room.roomId);
+        setIdCorrect(true);
       } catch(error) {
         if(error instanceof InternalServerError) {
           console.log("Internal Server Error!!");
@@ -51,7 +53,7 @@ const AllRoomspage = ({username}) => {
 
   if(idCorrect) {
     return (
-      <MyRoompage username={username} host={player1} guest={player2} roomID={roomId}></MyRoompage>
+      <MyRoompage username={username} host={player1} guest={player2} roomID={roomID}></MyRoompage>
     )
   }
 

@@ -23,7 +23,6 @@ const MyRoompage = ({username, roomID, host}) => {
   };
 
   const handleStartGame = (game) => {
-    console.log('here qqqqqqqqqqqqqq')
     setPlayer1(game.players[0])
     setPlayer2(game.players[1])
     setGameId(game.gameId);
