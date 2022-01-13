@@ -1,6 +1,7 @@
 import Board from "../components/Board";
 import cover from "../chessPieces/cover.png";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useWebsocket, ConnectionState, WebSocketState } from '../useWebsocket';
 import bc from "../chessPieces/bc.png";
 import bg from "../chessPieces/bg.png";
 import bk from "../chessPieces/bk.png";
@@ -56,9 +57,21 @@ const BoardPage = ({username, player1, player2, roomID, gameId}) => {
   const [board, setBoard] = useState(new Array(32).fill(14));
   const [firstClicked, setFirstClicked] = useState(false);
 
+  const handleMakeMove = (game, move) => {
+    setBoard(game.board)
+  }
+
+  const {state, sendConnectionState} = useWebsocket({handleMakeMove});
+  useEffect(() => {
+    if (state === WebSocketState.OPEN) {
+      sendConnectionState(ConnectionState.GAME, gameId);
+    }
+  }, [state]);
+
   const handleOnClick = async (index) => {
     try {
       if(!firstClicked) {
+        console.log('game = ', gameId)
         const {moves} = await firstClickApi(gameId, index);
         console.log('first clicked!!') 
         setFirstClicked(true);

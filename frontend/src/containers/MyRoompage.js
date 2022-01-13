@@ -1,11 +1,12 @@
 import Title from "../components/Title";
 import ConfirmButton from "../components/ConfirmButton";
 import { Button } from "antd";
-import {useState} from "react";
+import { useState, useEffect } from "react";
 import BoardPage from "./Boardpage";
 import Gamepage from "./Gamepage";
 import { leaveRoomApi, startGameApi } from "../api";
 import { PlayerNumberUnmatchError, InternalServerError } from "../error";
+import { useWebsocket, ConnectionState, WebSocketState } from '../useWebsocket';
 
 const MyRoompage = ({username, roomID, host}) => {
 
@@ -21,14 +22,25 @@ const MyRoompage = ({username, roomID, host}) => {
     height: '675px',
   };
 
+  const handleStartGame = (game) => {
+    console.log('here qqqqqqqqqqqqqq')
+    setPlayer1(game.players[0])
+    setPlayer2(game.players[1])
+    setGameId(game.gameId);
+    setStartGame(true);
+  }
+
+  const {state, sendConnectionState} = useWebsocket({handleStartGame});
+  useEffect(() => {
+    if (state === WebSocketState.OPEN) {
+      sendConnectionState(ConnectionState.ROOM);
+    }
+  }, [state]);
+
   const handleOnStart = async () => {
     try {
       if(username === host) {
-        const {game} = await startGameApi(roomID) ;
-        setPlayer1(game.players[0])
-        setPlayer2(game.players[1])
-        setGameId(game.gameId)
-        setStartGame(true);
+        const {game} = await startGameApi(roomID);
       }
       else {
         alert("You are not the Host Player!!!")
