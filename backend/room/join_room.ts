@@ -5,6 +5,8 @@ import {WebSocketConnection} from '../websocket/web_socket_connection';
 
 export async function joinRoom(username: string, roomId: number): Promise<RoomView> {
   const room = await RoomModel.findOne({roomId});
+  console.log(roomId);
+  console.log(room)
   if(!room) {
     throw new RoomNotFoundError;
   }

@@ -36,6 +36,7 @@ const MyRoompage = ({username, roomID, host}) => {
     }
   }, [state]);
 
+
   const handleOnStart = async () => {
     try {
       if(username === host) {
@@ -55,6 +56,7 @@ const MyRoompage = ({username, roomID, host}) => {
     try {
       await leaveRoomApi(roomID);
       setLeave(true);
+
     } catch(error) {
       if(error instanceof InternalServerError) {
         console.log("Internal Server Error!!");

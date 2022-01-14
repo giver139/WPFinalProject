@@ -19,6 +19,7 @@ import rr from "../chessPieces/rr.png";
 import empty from "../chessPieces/empty.png";
 import "./Select.css";
 import { firstClickApi, secondClickApi } from "../api";
+import Title from "../components/Title";
 import { InvalidDestinationSelectionError, InvalidSourceSelectionError, NoPossibleDestinationError, RequireLoginError, InternalServerError, NotYourTurnError } from "../error";
 
 const chessImage = [bk, bg, bm, br, bn, bc, bp, rk, rg, rm, rr, rn, rc, rp, cover, empty];
@@ -54,8 +55,8 @@ const BoardPage = ({username, player1, player2, roomID, gameId}) => {
   const [board, setBoard] = useState(new Array(32).fill(14));
   const [firstClicked, setFirstClicked] = useState(false);
   const [nowPlayer, setNowPlayer] = useState(player1);
-  const [player1Color, setPlayer1Color] = useState("red");
-  const [player2Color, setPlayer2Color] = useState("black");
+  const [player1Color, setPlayer1Color] = useState(rk);
+  const [player2Color, setPlayer2Color] = useState(bk);
   const [won, setWon] = useState(false);
 
   const handleMakeMove = (game, move) => {
@@ -120,11 +121,21 @@ const BoardPage = ({username, player1, player2, roomID, gameId}) => {
   console.log(board);
   return (
     <div className="Boardpage" style={myStyle}>
-      <h3>Unrated Game</h3>
-      <h3>{player1} vs {player2}</h3>
-      <h3>Room ID: {roomID}</h3>
-      <h3>It's {nowPlayer}'s turn</h3>
-      <h3>{player1}: <img src = {rk}/>,   {player2}: <img src={bk}/></h3>
+      <Title>
+        <h2>Unrated Game</h2>
+      </Title>
+      <Title>
+        <h3>{player1} vs {player2}</h3>
+      </Title>
+      <Title>
+        <h3>Room ID: {roomID}</h3>
+      </Title>
+      <Title>
+        <h3>It's {nowPlayer}'s turn</h3>
+      </Title>
+      <Title>
+        <h3>{player1}: <img src = {player1Color}/>    {player2}: <img src={player2Color}/></h3>
+      </Title>
       <Board>{board.map((chess_id, index) => (<div style = {blocks} key={index*100+chess_id}>
       <img src = {chessImage[chess_id]} onClick={(event) => {handleOnClick(index, event);}} style={test}/>
       </div>))}</Board>
