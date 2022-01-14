@@ -122,10 +122,7 @@ const BoardPage = ({username, player1, player2, roomID, gameId}) => {
   return (
     <div className="Boardpage" style={myStyle}>
       <Title>
-        <h2>Unrated Game</h2>
-      </Title>
-      <Title>
-        <h3>{player1} vs {player2}</h3>
+        <h2>Unrated Game ({player1} vs {player2})</h2>
       </Title>
       <Title>
         <h3>Room ID: {roomID}</h3>
