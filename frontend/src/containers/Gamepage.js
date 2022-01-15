@@ -5,7 +5,7 @@ import JoinRoom from '../components/Joinroom';
 import Title from '../components/Title';
 import MyRoompage from './MyRoompage';
 import AllRoomspage from './AllRoomspage';
-import { createRoomApi } from '../api';
+import { createRoomApi, logoutApi } from '../api';
 import { RequireLoginError, InternalServerError } from '../error';
 import "./button.css"
 import Homepage from './Homepage';
@@ -38,7 +38,8 @@ const Gamepage = ({username}) => {
     setJoined(true);
   }
 
-  const handleOnLogout = () => {
+  const handleOnLogout = async () => {
+    await logoutApi();
     setLogout(true);
   }
 

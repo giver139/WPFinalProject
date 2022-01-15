@@ -10,8 +10,8 @@ import Homepage from './Homepage';
 import "./button.css"
 import { useWebsocket, ConnectionState, WebSocketState } from '../useWebsocket';
 
-const LogInpage = () => {
-  const [username, setUsername] = useState("");
+const LogInpage = ({loggedInUsername}) => {
+  const [username, setUsername] = useState(loggedInUsername ?? "");
   const [password, setPassword] = useState("");
   const [reverse, setReverse] = useState(false);
 
@@ -29,7 +29,7 @@ const LogInpage = () => {
     height: '720px',
   };
 
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(!!loggedInUsername);
 
   const handleOnClick = async () => {
     if(username !== "" && password !== "") {

@@ -7,14 +7,27 @@ import Registerpage from './Registerpage';
 import LogInpage from './LogInpage';
 import bk from "../chessPieces/bk.png" 
 import rk from "../chessPieces/rk.png" 
+import jwtDecode from 'jwt-decode';
 import "./button.css"
 import { useWebsocket, ConnectionState, WebSocketState } from '../useWebsocket';
 
 const Homepage = () => {
   const [registered, setRegistered] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [username, setUsername] = useState('');
 
   const {state, sendConnectionState} = useWebsocket({});
+
+  useEffect(() => {
+    const token = localStorage.getItem('user');
+    if(token) {
+      const data = jwtDecode(token);
+      if(data.username !== undefined) {
+        setUsername(() => data.username);
+        setLoggedIn(() => true);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     if (state === WebSocketState.OPEN) {
@@ -44,7 +57,7 @@ const Homepage = () => {
     return (<Registerpage></Registerpage>)
   }
   else if(loggedIn) {
-    return (<LogInpage></LogInpage>)
+    return (<LogInpage loggedInUsername={username}></LogInpage>)
   }
   
   else {
