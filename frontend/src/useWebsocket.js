@@ -40,7 +40,7 @@ export async function sendAuthorization(loginToken) {
   await sendData({state: ConnectionState.INITIALIZING, token: token ? `Bearer ${token}` : ''});
 }
 
-client.addEventListener('open', sendAuthorization, {once: true});
+client.addEventListener('open', () => {sendAuthorization();}, {once: true});
 
 function createOnDataHandler({handleNewRoom, handleCloseRoom, handleJoinRoom, handleLeaveRoom, handleStartGame, handleMakeMove}) {
   return async (event: MessageEvent) => {
