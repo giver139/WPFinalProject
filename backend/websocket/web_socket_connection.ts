@@ -150,7 +150,7 @@ export class WebSocketConnection {
       try {
         await this.sendData({error: err});
       } catch(e: unknown) {}
-      this.close();
+      // this.close();
     }
   }
   
