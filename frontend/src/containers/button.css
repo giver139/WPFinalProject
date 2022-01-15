@@ -1,0 +1,4 @@
+button:hover {
+  transform:scale(1.02);
+  border: 3px red solid;
+}

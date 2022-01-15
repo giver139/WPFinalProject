@@ -21,6 +21,7 @@ import "./Select.css";
 import { firstClickApi, secondClickApi } from "../api";
 import Title from "../components/Title";
 import GameOverpage from "./GameOverpage";
+import "./button.css"
 import { InvalidDestinationSelectionError, InvalidSourceSelectionError, NoPossibleDestinationError, RequireLoginError, InternalServerError, NotYourTurnError } from "../error";
 
 const chessImage = [bk, bg, bm, br, bn, bc, bp, rk, rg, rm, rr, rn, rc, rp, cover, empty];
@@ -32,7 +33,7 @@ const BoardPage = ({username, player1, player2, roomID, gameId}) => {
   const myStyle = {
     backgroundImage: "url('https://pic.52112.com/180317/180317_143/n4SNygWU7T_small.jpg')",
     backgroundSize: 'contain',
-    height: '800px',
+    height: '720px',
   };
 
   const blocks = {

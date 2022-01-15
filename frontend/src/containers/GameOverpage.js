@@ -3,13 +3,14 @@ import Title from "../components/Title";
 import { Button } from "antd";
 import { useState } from "react";
 import Gamepage from "./Gamepage";
+import "./button.css"
 
 const GameOverpage = ({winPlayer}) => {
 
   const myStyle = {
     backgroundImage: "url('https://pic.52112.com/180317/180317_143/n4SNygWU7T_small.jpg')",
     backgroundSize: 'contain',
-    height: '800px',
+    height: '720px',
   };
 
   const [reverse, setReverse] = useState(false)

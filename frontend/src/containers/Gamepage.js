@@ -7,12 +7,13 @@ import MyRoompage from './MyRoompage';
 import AllRoomspage from './AllRoomspage';
 import { createRoomApi } from '../api';
 import { RequireLoginError, InternalServerError } from '../error';
+import "./button.css"
 
 const Gamepage = ({username}) => {
   const myStyle = {
     backgroundImage: "url('https://pic.52112.com/180317/180317_143/n4SNygWU7T_small.jpg')",
     backgroundSize: 'contain',
-    height: '800px',
+    height: '720px',
   };
 
   const [joined, setJoined] = useState(false);

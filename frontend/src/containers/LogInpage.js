@@ -7,6 +7,7 @@ import {loginApi} from '../api';
 import Gamepage from './Gamepage';
 import { IncorrectUsernameOrPasswordError, InternalServerError } from '../error';
 import Homepage from './Homepage';
+import "./button.css"
 
 const LogInpage = () => {
   const [username, setUsername] = useState("");
@@ -16,7 +17,7 @@ const LogInpage = () => {
   const myStyle = {
     backgroundImage: "url('https://pic.52112.com/180317/180317_143/n4SNygWU7T_small.jpg')",
     backgroundSize: 'contain',
-    height: '800px',
+    height: '720px',
   };
 
   const [loggedIn, setLoggedIn] = useState(false);

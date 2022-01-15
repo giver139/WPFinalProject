@@ -7,6 +7,7 @@ import Registerpage from './Registerpage';
 import LogInpage from './LogInpage';
 import bk from "../chessPieces/bk.png" 
 import rk from "../chessPieces/rk.png" 
+import "./button.css"
 
 const Homepage = () => {
   const [registered, setRegistered] = useState(false);
@@ -23,7 +24,7 @@ const Homepage = () => {
   const myStyle = {
     backgroundImage: "url('https://pic.52112.com/180317/180317_143/n4SNygWU7T_small.jpg')",
     backgroundSize: 'contain',
-    height: '800px',
+    height: '720px',
   };
 
   const piece = {

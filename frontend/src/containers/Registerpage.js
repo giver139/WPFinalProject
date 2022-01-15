@@ -6,6 +6,7 @@ import ConfirmButton from '../components/ConfirmButton';
 import Homepage from './Homepage';
 import {registerApi} from '../api';
 import { InternalServerError, UsernameAlreadyExistsError } from '../error';
+import "./button.css"
 
 const Registerpage = () => {
   const [username, setUsername] = useState("");
@@ -17,7 +18,7 @@ const Registerpage = () => {
   const myStyle = {
     backgroundImage: "url('https://pic.52112.com/180317/180317_143/n4SNygWU7T_small.jpg')",
     backgroundSize: 'contain',
-    height: '800px',
+    height: '720px',
   };
 
   const handleOnClick = async () => {
