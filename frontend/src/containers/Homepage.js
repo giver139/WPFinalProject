@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Button, Input} from 'antd';
 import Title from '../components/Title';
 import Register from '../components/Register';
@@ -8,10 +8,19 @@ import LogInpage from './LogInpage';
 import bk from "../chessPieces/bk.png" 
 import rk from "../chessPieces/rk.png" 
 import "./button.css"
+import { useWebsocket, ConnectionState, WebSocketState } from '../useWebsocket';
 
 const Homepage = () => {
   const [registered, setRegistered] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
+
+  const {state, sendConnectionState} = useWebsocket({});
+
+  useEffect(() => {
+    if (state === WebSocketState.OPEN) {
+      sendConnectionState(ConnectionState.HOME);
+    }
+  }, [state]);
 
   const handleRegistered = () => {
     setRegistered(true);

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Button, Input} from 'antd';
 import Title from '../components/Title';
 import Username from '../components/Username';
@@ -8,11 +8,20 @@ import Gamepage from './Gamepage';
 import { IncorrectUsernameOrPasswordError, InternalServerError } from '../error';
 import Homepage from './Homepage';
 import "./button.css"
+import { useWebsocket, ConnectionState, WebSocketState } from '../useWebsocket';
 
 const LogInpage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [reverse, setReverse] = useState(false);
+
+  const {state, sendConnectionState} = useWebsocket({});
+
+  useEffect(() => {
+    if (state === WebSocketState.OPEN) {
+      sendConnectionState(ConnectionState.MAIN);
+    }
+  }, [state]);
 
   const myStyle = {
     backgroundImage: "url('https://pic.52112.com/180317/180317_143/n4SNygWU7T_small.jpg')",

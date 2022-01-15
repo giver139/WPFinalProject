@@ -1,14 +1,15 @@
 import Title from "../components/Title";
 import {Input, Button} from "antd";
 import SearchBox from "../components/SearchBox";
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import ConfirmButton from '../components/ConfirmButton';
-import {joinRoomApi} from '../api'
+import {joinRoomApi, listRoomsApi} from '../api'
 import Gamepage from "./Gamepage";
 import SearchButton from "../components/SearchButton";
 import { RequireLoginError , InternalServerError, RoomIdNotFoundError } from "../error";
 import MyRoompage from "./MyRoompage";
 import { Card } from "antd";
+import { useWebsocket, ConnectionState, WebSocketState } from '../useWebsocket';
 import "./button.css";
 import "./Box.css";
 
@@ -26,27 +27,49 @@ const AllRoomspage = ({username}) => {
   const [idCorrect, setIdCorrect] = useState(false);
   const [player1, setPlayer1] = useState('');
   const [player2, setPlayer2] = useState('');
+  const [rooms, setRooms] = useState([]);
 
-  const handleOnClick = async () => {
-    if(roomId !== "") {
-      try {
-        const {room} = await joinRoomApi(roomId);
-        setPlayer1(room.players[0])
-        setPlayer2(room.players[1])
-        setRoomID(room.roomId);
-        setIdCorrect(true);
-      } catch(error) {
-        if(error instanceof InternalServerError) {
-          console.log("Internal Server Error!!");
-        }
+  const handleNewRoom = (newRoom) => {
+    setRooms([...rooms, newRoom]);
+  };
 
-        else if(error instanceof RequireLoginError) {
-          alert("Please Log In Again!!!");
-        }
+  const handleCloseRoom = (closedRoomId) => {
+    setRooms(rooms.filter((room) => room.roomId !== closedRoomId));
+  };
 
-        else if(error instanceof RoomIdNotFoundError) {
-          alert("RoomId Not Found!!!");
-        }
+  const {state, sendConnectionState} = useWebsocket({handleNewRoom, handleCloseRoom});
+  const [enterRoom, setEnterRoom] = useState(null);
+
+  useEffect(() => {
+    if (state === WebSocketState.OPEN) {
+      sendConnectionState(ConnectionState.MAIN);
+    }
+  }, [state]);
+
+  useEffect(async () => {
+    const {rooms} = await listRoomsApi();
+    setRooms([...rooms]);
+  }, []);
+
+  const handleOnClick = async (selectedRoomId) => {
+    try {
+      const {room} = await joinRoomApi(selectedRoomId);
+      setEnterRoom(room);
+      setPlayer1(room.players[0])
+      setPlayer2(room.players[1])
+      setRoomID(room.roomId);
+      setIdCorrect(true);
+    } catch(error) {
+      if(error instanceof InternalServerError) {
+        console.log("Internal Server Error!!");
+      }
+
+      else if(error instanceof RequireLoginError) {
+        alert("Please Log In Again!!!");
+      }
+
+      else if(error instanceof RoomIdNotFoundError) {
+        alert("RoomId Not Found!!!");
       }
     }
   }
@@ -61,7 +84,7 @@ const AllRoomspage = ({username}) => {
 
   if(idCorrect) {
     return (
-      <MyRoompage username={username} host={player1} guest={player2} roomID={roomID}></MyRoompage>
+      <MyRoompage username={username} host={player1} guest={player2} roomID={roomID} roomInfo={enterRoom}></MyRoompage>
     )
   }
 
@@ -78,10 +101,12 @@ const AllRoomspage = ({username}) => {
           <h1>加入房間</h1>
         </Title>
         <div className="site-card-border-less-wrapper">
-          <Card title="Room ID: 0" bordered={false} style={{width: 800}} className="Box">
-            <p style={fonts}>Player name: {username}</p>
-            <SearchButton><Button onClick={handleOnClick}>加入</Button></SearchButton>
-          </Card>
+          {rooms.map((room) => (
+            <Card title={`Room ID: ${room.roomId}`} bordered={false} style={{width: 800}} className="Box" key={JSON.stringify(room)}>
+              <p style={fonts}>Players name: {room.players.join(', ')}</p>
+              <SearchButton><Button onClick={() => {handleOnClick(room.roomId);}}>加入</Button></SearchButton>
+            </Card>
+          ))}
         </div>
         <ConfirmButton>
             <Button onClick={handleOnReverse}>返回</Button>

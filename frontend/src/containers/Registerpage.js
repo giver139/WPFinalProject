@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {Button, Input} from 'antd';
 import Title from '../components/Title';
 import Username from '../components/Username';
@@ -7,6 +7,7 @@ import Homepage from './Homepage';
 import {registerApi} from '../api';
 import { InternalServerError, UsernameAlreadyExistsError } from '../error';
 import "./button.css"
+import { useWebsocket, ConnectionState, WebSocketState } from '../useWebsocket';
 
 const Registerpage = () => {
   const [username, setUsername] = useState("");
@@ -14,6 +15,14 @@ const Registerpage = () => {
   const [nickname, setNickname] = useState("");
   const [registered, setRegistered] = useState(false);
   const [reverse, setReverse] = useState(false);
+
+  const {state, sendConnectionState} = useWebsocket({});
+
+  useEffect(() => {
+    if (state === WebSocketState.OPEN) {
+      sendConnectionState(ConnectionState.MAIN);
+    }
+  }, [state]);
 
   const myStyle = {
     backgroundImage: "url('https://pic.52112.com/180317/180317_143/n4SNygWU7T_small.jpg')",

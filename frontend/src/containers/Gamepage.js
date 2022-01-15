@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {Button, Input} from 'antd';
 import CreateRoom from '../components/Createroom';
 import JoinRoom from '../components/Joinroom';
@@ -10,6 +10,7 @@ import { RequireLoginError, InternalServerError } from '../error';
 import "./button.css"
 import Homepage from './Homepage';
 import LogoutButton from '../components/LogoutButton';
+import { useWebsocket, ConnectionState, WebSocketState } from '../useWebsocket';
 
 const Gamepage = ({username}) => {
   const myStyle = {
@@ -23,6 +24,15 @@ const Gamepage = ({username}) => {
   const [roomID, setRoomID] = useState(-1);
   const [host, setHost] = useState("");
   const [logout, setLogout] = useState(false);
+  const [createdRoom, setCreatedRoom] = useState(null);
+
+  const {state, sendConnectionState} = useWebsocket({});
+
+  useEffect(() => {
+    if (state === WebSocketState.OPEN) {
+      sendConnectionState(ConnectionState.MAIN);
+    }
+  }, [state]);
 
   const handleOnJoin = () => {
     setJoined(true);
@@ -35,6 +45,7 @@ const Gamepage = ({username}) => {
   const handleOnCreate = async () => {
     try {
       const {room} = await createRoomApi();
+      setCreatedRoom(room);
       setRoomID(room.roomId);
       setHost(room.players[0]);
       setCreated(true);
@@ -51,7 +62,7 @@ const Gamepage = ({username}) => {
 
   if(created) {
     return (
-      <MyRoompage username={username} roomID = {roomID} host = {host}></MyRoompage>
+      <MyRoompage username={username} roomID = {roomID} host = {host} roomInfo={createdRoom}></MyRoompage>
     )
   }
 

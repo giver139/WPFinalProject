@@ -1,11 +1,20 @@
 import ConfirmButton from "../components/ConfirmButton";
 import Title from "../components/Title";
 import { Button } from "antd";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Gamepage from "./Gamepage";
 import "./button.css"
+import { useWebsocket, ConnectionState, WebSocketState } from '../useWebsocket';
 
 const GameOverpage = ({winPlayer, isTie}) => {
+
+  const {state, sendConnectionState} = useWebsocket({});
+
+  useEffect(() => {
+    if (state === WebSocketState.OPEN) {
+      sendConnectionState(ConnectionState.MAIN);
+    }
+  }, [state]);
 
   const myStyle = {
     backgroundImage: "url('https://pic.52112.com/180317/180317_143/n4SNygWU7T_small.jpg')",

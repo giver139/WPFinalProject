@@ -27,7 +27,7 @@ const OperationType = Object.freeze({
 const client = new WebSocket('ws://localhost:4000');
 
 async function sendData(data) {
-  if(client.readyState != WebSocketState.OPEN) throw new Error('web socket not ready');
+  if(client.readyState !== WebSocketState.OPEN) throw new Error('web socket not ready');
   client.send(JSON.stringify(data));
 }
 
@@ -68,7 +68,7 @@ function createOnDataHandler({handleNewRoom, handleCloseRoom, handleJoinRoom, ha
         break;
       case OperationType.START_GAME:
         if(handleStartGame) {
-          handleStartGame(payload.game); // {game: {gameId: number, players: string[], timestamp: Date, blackPlayer: number, board: number[], noFlipEatCount: number}}
+          handleStartGame(payload.game); // {gameId: number, players: string[], timestamp: Date, blackPlayer: number, board: number[], noFlipEatCount: number}
         }
         break;
       case OperationType.MAKE_MOVE:

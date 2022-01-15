@@ -10,7 +10,7 @@ import { useWebsocket, ConnectionState, WebSocketState } from '../useWebsocket';
 import "./button.css"
 import Homepage from "./Homepage";
 
-const MyRoompage = ({username, roomID, host}) => {
+const MyRoompage = ({username, roomID, host, roomInfo}) => {
 
   const [startGame, setStartGame] = useState(false);
   const [leave, setLeave] = useState(false);
@@ -18,11 +18,14 @@ const MyRoompage = ({username, roomID, host}) => {
   const [player2, setPlayer2] = useState('');
   const [gameId, setGameId] = useState(0);
   const [firstPlayer, setFirstPlayer] = useState(-1);
+  const [roomPlayers, setRoomPlayers] = useState(roomInfo.players);
 
-  const myStyle = {
-    backgroundImage: "url('https://pic.52112.com/180317/180317_143/n4SNygWU7T_small.jpg')",
-    backgroundSize: 'contain',
-    height: '720px',
+  const handleJoinRoom = (newUser) => {
+    setRoomPlayers([...roomPlayers, newUser]);
+  };
+
+  const handleLeaveRoom = (leftUser) => {
+    setRoomPlayers(roomPlayers.filter((name) => name !== leftUser));
   };
 
   const handleStartGame = (game) => {
@@ -33,13 +36,19 @@ const MyRoompage = ({username, roomID, host}) => {
     setStartGame(true);
   }
 
-  const {state, sendConnectionState} = useWebsocket({handleStartGame});
+  const {state, sendConnectionState} = useWebsocket({handleJoinRoom, handleLeaveRoom, handleStartGame});
+
   useEffect(() => {
     if (state === WebSocketState.OPEN) {
-      sendConnectionState(ConnectionState.ROOM, roomID);
+      sendConnectionState(ConnectionState.ROOM,roomID);
     }
   }, [state]);
 
+  const myStyle = {
+    backgroundImage: "url('https://pic.52112.com/180317/180317_143/n4SNygWU7T_small.jpg')",
+    backgroundSize: 'contain',
+    height: '720px',
+  };
 
   const handleOnStart = async () => {
     try {
