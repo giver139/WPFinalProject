@@ -1,7 +1,7 @@
 import {InvalidSourceSelectionError, InvalidDestinationSelectionError} from './error';
 import {Game} from '../models/game';
 import {Color, Move, toMove, Board, ChessNo} from '../board/models';
-import {checkFirstMoveBoard, flipChess, canMoveOneStep} from '../board/helper'
+import {checkFirstMoveBoard, flipChess, canMoveOneStep, checkPlayerLose} from '../board/helper'
 import {getValidDestinations} from '../board/get_valid_destinations'
 
 export function makeMove(game: Game, color: Color, move: Move, username: string): Move {
@@ -12,7 +12,7 @@ export function makeMove(game: Game, color: Color, move: Move, username: string)
       throw new InvalidDestinationSelectionError;
     }
     // find out the real black player
-    color = board.board[move.source.index].color;
+    color = initBoard.board[move.source.index].color;
     if (color === Color.BLACK) {
       game.blackPlayer = game.players.indexOf(username);
     }
@@ -34,11 +34,12 @@ export function makeMove(game: Game, color: Color, move: Move, username: string)
     if (getValidDestinations(game, color, move.source).filter(_ => _.destination.index === move.destination.index).length === 0) {
       throw new InvalidDestinationSelectionError;
     }
-    // move
-    if (board.board[move.destination.index].color !== color) {
+    if (board.board[move.destination.index].color !== color && board.board[move.destination.index].color !== Color.NONE) {
+      // eat
       game.noFlipEatCount = 0;
     }
     else {
+      // move
       game.noFlipEatCount++;
     }
     board.board[move.destination.index].chessType.color = board.board[move.source.index].chessType.color;
@@ -47,5 +48,9 @@ export function makeMove(game: Game, color: Color, move: Move, username: string)
     board.board[move.source.index].chessType.chessNo = ChessNo.EMPTY;
   }
   game.board = board.toChessNoArray();
+  if (checkPlayerLose(board, game.currentPlayer === game.blackPlayer ? Color.RED : Color.BLACK)) {
+    console.log('jjjjjjjjjjjj');
+    game.winPlayer = game.currentPlayer;
+  }
   return move;
 }

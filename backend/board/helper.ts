@@ -84,6 +84,7 @@ export function flipChess(oriChess: Chess, chess: Chess): Chess {
 }
 
 export function checkPlayerLose(board: Board, color: Color): Boolean {
+  console.log('here');
   let colorCount = 0;
   for (let chess of board.board) {
     if (chess.chessNo === ChessNo.COVERED) {

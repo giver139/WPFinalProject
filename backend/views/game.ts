@@ -8,6 +8,7 @@ export class GameView {
   readonly currentPlayer: number;
   readonly board: ReadonlyArray<number>;
   readonly noFlipEatCount: number;
+  readonly winPlayer: number;
   constructor(game: Game) {
     this.gameId = game.gameId;
     this.players = [...game.players];
@@ -16,5 +17,6 @@ export class GameView {
     this.currentPlayer = game.currentPlayer;
     this.board = [...game.board];
     this.noFlipEatCount = game.noFlipEatCount;
+    this.winPlayer = game.winPlayer;
   }
 }
