@@ -5,7 +5,7 @@ const JoinRoom = styled.div`
     align-items: center;
     justify-content: center;
 
-    button{
+    Button{
       width: 400px;
       height: 100px;
       font-size: 40px;

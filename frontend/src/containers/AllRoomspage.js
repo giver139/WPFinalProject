@@ -1,13 +1,16 @@
 import Title from "../components/Title";
 import {Input, Button} from "antd";
-import Username from '../components/Username';
+import SearchBox from "../components/SearchBox";
 import {useState} from "react";
 import ConfirmButton from '../components/ConfirmButton';
 import {joinRoomApi} from '../api'
 import Gamepage from "./Gamepage";
+import SearchButton from "../components/SearchButton";
 import { RequireLoginError , InternalServerError, RoomIdNotFoundError } from "../error";
 import MyRoompage from "./MyRoompage";
-import "./button.css"
+import { Card } from "antd";
+import "./button.css";
+import "./Box.css";
 
 const AllRoomspage = ({username}) => {
 
@@ -52,6 +55,10 @@ const AllRoomspage = ({username}) => {
     setReverse(true);
   }
 
+  const fonts = {
+    fontSize: "30px",
+  }
+
   if(idCorrect) {
     return (
       <MyRoompage username={username} host={player1} guest={player2} roomID={roomID}></MyRoompage>
@@ -70,11 +77,13 @@ const AllRoomspage = ({username}) => {
         <Title>
           <h1>加入房間</h1>
         </Title>
-        <Username>
-          <Input placeholder="room ID" onChange={(event) => {setRoomId(() => event.target.value);}}></Input>
-        </Username>
+        <div className="site-card-border-less-wrapper">
+          <Card title="Room ID: 0" bordered={false} style={{width: 800}} className="Box">
+            <p style={fonts}>Player name: {username}</p>
+            <SearchButton><Button onClick={handleOnClick}>加入</Button></SearchButton>
+          </Card>
+        </div>
         <ConfirmButton>
-            <Button onClick={handleOnClick}>確認</Button>
             <Button onClick={handleOnReverse}>返回</Button>
         </ConfirmButton>
       </div>

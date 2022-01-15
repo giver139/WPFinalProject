@@ -4,9 +4,10 @@ const ConfirmButton = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    align-self: center;
 
-    button {
-      width: 100px;
+    Button {
+      width: 110px;
       height: 50px;
       font-size: 20px;
       background-color: black;
