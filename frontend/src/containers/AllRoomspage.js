@@ -30,11 +30,11 @@ const AllRoomspage = ({username}) => {
   const [rooms, setRooms] = useState([]);
 
   const handleNewRoom = (newRoom) => {
-    setRooms([...rooms, newRoom]);
+    setRooms((oldRooms) => [...oldRooms, newRoom]);
   };
 
   const handleCloseRoom = (closedRoomId) => {
-    setRooms(rooms.filter((room) => room.roomId !== closedRoomId));
+    setRooms((oldRooms) => oldRooms.filter((room) => room.roomId !== closedRoomId));
   };
 
   const {state, sendConnectionState} = useWebsocket({handleNewRoom, handleCloseRoom});
@@ -48,7 +48,7 @@ const AllRoomspage = ({username}) => {
 
   useEffect(async () => {
     const {rooms} = await listRoomsApi();
-    setRooms([...rooms]);
+    setRooms(() => [...rooms]);
   }, []);
 
   const handleOnClick = async (selectedRoomId) => {

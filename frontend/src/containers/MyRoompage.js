@@ -21,11 +21,11 @@ const MyRoompage = ({username, roomID, host, roomInfo}) => {
   const [roomPlayers, setRoomPlayers] = useState(roomInfo.players);
 
   const handleJoinRoom = (newUser) => {
-    setRoomPlayers([...roomPlayers, newUser]);
+    setRoomPlayers((oldRoomPlayers) => [...oldRoomPlayers, newUser]);
   };
 
   const handleLeaveRoom = (leftUser) => {
-    setRoomPlayers(roomPlayers.filter((name) => name !== leftUser));
+    setRoomPlayers((oldRoomPlayers) => oldRoomPlayers.filter((name) => name !== leftUser));
   };
 
   const handleStartGame = (game) => {
