@@ -34,7 +34,7 @@ export async function loginApi(payload) {
     }
     localStorage.setItem('user', data.token.slice(7));
     try {
-      await sendAuthorization();
+      await sendAuthorization(data.token.slice(7));
     } catch(error) {}
     return data; // {user: {username: string, nickname: string}, token: string}
   } catch(error) {
@@ -83,7 +83,7 @@ export async function logoutApi(payload) {
   try {
     const {data} = await api.post('/logout', payload);
     localStorage.removeItem('user');
-    sendAuthorization().catch(()=>{});
+    sendAuthorization('').catch(()=>{});
     return data; // {token: string}
   } catch(error) {
     throw error;
