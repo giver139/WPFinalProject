@@ -20,6 +20,7 @@ import empty from "../chessPieces/empty.png";
 import "./Select.css";
 import { firstClickApi, secondClickApi } from "../api";
 import Title from "../components/Title";
+import GameOverpage from "./GameOverpage";
 import { InvalidDestinationSelectionError, InvalidSourceSelectionError, NoPossibleDestinationError, RequireLoginError, InternalServerError, NotYourTurnError } from "../error";
 
 const chessImage = [bk, bg, bm, br, bn, bc, bp, rk, rg, rm, rr, rn, rc, rp, cover, empty];
@@ -58,6 +59,7 @@ const BoardPage = ({username, player1, player2, roomID, gameId}) => {
   const [player1Color, setPlayer1Color] = useState(rk);
   const [player2Color, setPlayer2Color] = useState(bk);
   const [won, setWon] = useState(false);
+  const [winPlayer, setWinPlayer] = useState("")
 
   const handleMakeMove = (game, move) => {
     setBoard(game.board)
@@ -119,25 +121,34 @@ const BoardPage = ({username, player1, player2, roomID, gameId}) => {
   }
 
   console.log(board);
-  return (
-    <div className="Boardpage" style={myStyle}>
-      <Title>
-        <h2>Unrated Game ({player1} vs {player2})</h2>
-      </Title>
-      <Title>
-        <h3>Room ID: {roomID}</h3>
-      </Title>
-      <Title>
-        <h3>It's {nowPlayer}'s turn</h3>
-      </Title>
-      <Title>
-        <h3>{player1}: <img src = {player1Color}/>    {player2}: <img src={player2Color}/></h3>
-      </Title>
-      <Board>{board.map((chess_id, index) => (<div style = {blocks} key={index*100+chess_id}>
-      <img src = {chessImage[chess_id]} onClick={(event) => {handleOnClick(index, event);}} style={test}/>
-      </div>))}</Board>
-    </div>
-  )
+
+  if(won) {
+    return (
+      <GameOverpage winPlayer={winPlayer}></GameOverpage>
+    )
+  }
+
+  else {
+    return (
+      <div className="Boardpage" style={myStyle}>
+        <Title>
+          <h2>Unrated Game ({player1} vs {player2})</h2>
+        </Title>
+        <Title>
+          <h3>Room ID: {roomID}</h3>
+        </Title>
+        <Title>
+          <h3>It's {nowPlayer}'s turn</h3>
+        </Title>
+        <Title>
+          <h3>{player1}: <img src = {player1Color}/>    {player2}: <img src={player2Color}/></h3>
+        </Title>
+        <Board>{board.map((chess_id, index) => (<div style = {blocks} key={index*100+chess_id}>
+        <img src = {chessImage[chess_id]} onClick={(event) => {handleOnClick(index, event);}} style={test}/>
+        </div>))}</Board>
+      </div>
+    )
+  }
 }
 
 export default BoardPage;

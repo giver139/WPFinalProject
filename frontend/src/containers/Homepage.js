@@ -5,6 +5,8 @@ import Register from '../components/Register';
 import LogIn from '../components/LogIn';
 import Registerpage from './Registerpage';
 import LogInpage from './LogInpage';
+import bk from "../chessPieces/bk.png" 
+import rk from "../chessPieces/rk.png" 
 
 const Homepage = () => {
   const [registered, setRegistered] = useState(false);
@@ -24,6 +26,10 @@ const Homepage = () => {
     height: '675px',
   };
 
+  const piece = {
+    margin: '15px',
+  }
+
   if(registered) {
     return (<Registerpage></Registerpage>)
   }
@@ -35,7 +41,7 @@ const Homepage = () => {
     return (  
     <div className='homepage' style={myStyle}>
     <Title>
-      <h1>暗棋遊戲</h1>
+      <img src={rk} style={piece}/><h1>暗棋遊戲</h1><img src={bk}/>
     </Title>
     <Register>
       <Button onClick={handleRegistered}>註冊</Button>
