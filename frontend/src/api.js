@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {InternalServerError, RequireLoginError, InvalidPayloadError, UnknownError, IncorrectUsernameOrPasswordError, UsernameAlreadyExistsError, RoomIdNotFoundError, UserAlreadyInTheRoomError, UserNotInTheRoomError, PlayerNumberUnmatchError, InvalidParametersError, UserNotInTheGameError, InvalidSourceSelectionError, NoPossibleDestinationError, InvalidDestinationSelectionError, NotYourTurnError} from './error';
+import {sendAuthorization} from './useWebsocket';
 
 const api = axios.create({
   baseURL: `http://localhost:4000/api`,
@@ -32,6 +33,7 @@ export async function loginApi(payload) {
       throw new Error('invalid token');
     }
     localStorage.setItem('user', data.token.slice(7));
+    sendAuthorization().catch(()=>{});
     return data; // {user: {username: string, nickname: string}, token: string}
   } catch(error) {
     if(error?.response?.status === 403) {
@@ -79,6 +81,7 @@ export async function logoutApi(payload) {
   try {
     const {data} = await api.post('/logout', payload);
     localStorage.removeItem('user');
+    sendAuthorization().catch(()=>{});
     return data; // {token: string}
   } catch(error) {
     throw error;

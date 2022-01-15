@@ -35,7 +35,7 @@ async function sendConnectionState(connectionState, id = 0) {
   sendData({state: connectionState, id});
 }
 
-async function sendAuthorization() {
+export async function sendAuthorization() {
   const token = localStorage.getItem('user');
   sendData({state: ConnectionState.INITIALIZING, token: token ? `Bearer ${token}` : ''});
 }
