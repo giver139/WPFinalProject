@@ -26,7 +26,7 @@ import { InvalidDestinationSelectionError, InvalidSourceSelectionError, NoPossib
 
 const chessImage = [bk, bg, bm, br, bn, bc, bp, rk, rg, rm, rr, rn, rc, rp, cover, empty];
 
-const BoardPage = ({username, player1, player2, roomID, gameId}) => {
+const BoardPage = ({username, player1, player2, roomID, gameId, firstPlayer}) => {
 
   const [source, setSource] = useState(-1);
 
@@ -56,14 +56,38 @@ const BoardPage = ({username, player1, player2, roomID, gameId}) => {
 
   const [board, setBoard] = useState(new Array(32).fill(14));
   const [firstClicked, setFirstClicked] = useState(false);
-  const [nowPlayer, setNowPlayer] = useState(player1);
+  const [nowPlayer, setNowPlayer] = useState(firstPlayer);
   const [player1Color, setPlayer1Color] = useState(rk);
   const [player2Color, setPlayer2Color] = useState(bk);
   const [won, setWon] = useState(false);
+  const [tie, setTie] = useState(false);
   const [winPlayer, setWinPlayer] = useState("")
 
   const handleMakeMove = (game, move) => {
     setBoard(game.board)
+    console.log('here, game = ', game)
+    setNowPlayer(game.players[game.currentPlayer])
+    if (game.players[game.blackPlayer] === player1) {
+      setPlayer1Color(bk);
+      setPlayer2Color(rk);
+    }
+    else {
+      setPlayer1Color(rk);
+      setPlayer2Color(bk);
+    }
+    if (game.noFlipEatCount >= 60) {
+      setTie(true);
+    }
+    console.log(game);
+    if (game.winPlayer !== -1) {
+      setWon(true);
+      if (game.players[game.winPlayer] === player1) {
+        setWinPlayer(player1);
+      }
+      else {
+        setWinPlayer(player2);
+      }
+    }
   }
 
   const {state, sendConnectionState} = useWebsocket({handleMakeMove});
@@ -123,9 +147,9 @@ const BoardPage = ({username, player1, player2, roomID, gameId}) => {
 
   console.log(board);
 
-  if(won) {
+  if(won || tie) {
     return (
-      <GameOverpage winPlayer={winPlayer}></GameOverpage>
+      <GameOverpage winPlayer={winPlayer} isTie={tie}></GameOverpage>
     )
   }
 

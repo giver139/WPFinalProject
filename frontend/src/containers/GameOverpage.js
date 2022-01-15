@@ -5,7 +5,7 @@ import { useState } from "react";
 import Gamepage from "./Gamepage";
 import "./button.css"
 
-const GameOverpage = ({winPlayer}) => {
+const GameOverpage = ({winPlayer, isTie}) => {
 
   const myStyle = {
     backgroundImage: "url('https://pic.52112.com/180317/180317_143/n4SNygWU7T_small.jpg')",
@@ -31,9 +31,14 @@ const GameOverpage = ({winPlayer}) => {
         <Title>
           <h1>遊戲結束</h1>
         </Title>
+        { isTie ? 
+        <Title>
+          <h1>平手</h1>
+        </Title> :
         <Title>
           <h1>恭喜{winPlayer}獲勝</h1>
         </Title>
+        }
         <ConfirmButton>
           <Button onClick={handleOnClick}>返回</Button>
         </ConfirmButton>

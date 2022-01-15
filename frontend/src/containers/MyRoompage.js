@@ -16,6 +16,7 @@ const MyRoompage = ({username, roomID, host}) => {
   const [player1, setPlayer1] = useState('');
   const [player2, setPlayer2] = useState('');
   const [gameId, setGameId] = useState(0);
+  const [firstPlayer, setFirstPlayer] = useState(-1);
 
   const myStyle = {
     backgroundImage: "url('https://pic.52112.com/180317/180317_143/n4SNygWU7T_small.jpg')",
@@ -27,6 +28,7 @@ const MyRoompage = ({username, roomID, host}) => {
     setPlayer1(game.players[0])
     setPlayer2(game.players[1])
     setGameId(game.gameId);
+    setFirstPlayer(game.players[game.currentPlayer]);
     setStartGame(true);
   }
 
@@ -67,7 +69,7 @@ const MyRoompage = ({username, roomID, host}) => {
 
   if(startGame) {
     return (
-      <BoardPage username={username} player1={player1} player2={player2} roomID={roomID} gameId={gameId}></BoardPage>
+      <BoardPage username={username} player1={player1} player2={player2} roomID={roomID} gameId={gameId} firstPlayer={firstPlayer}></BoardPage>
     )
   }
 
