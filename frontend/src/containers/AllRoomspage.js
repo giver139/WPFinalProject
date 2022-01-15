@@ -1,5 +1,5 @@
 import Title from "../components/Title";
-import {Input, Button} from "antd";
+import {Input, Button, Table, Space, Tag} from "antd";
 import SearchBox from "../components/SearchBox";
 import {useState, useEffect} from "react";
 import ConfirmButton from '../components/ConfirmButton';
@@ -79,7 +79,7 @@ const AllRoomspage = ({username}) => {
   }
 
   const fonts = {
-    fontSize: "30px",
+    fontSize: "10px",
   }
 
   if(idCorrect) {
@@ -104,7 +104,9 @@ const AllRoomspage = ({username}) => {
           {rooms.map((room) => (
             <Card title={`Room ID: ${room.roomId}`} bordered={false} style={{width: 800}} className="Box" key={JSON.stringify(room)}>
               <p style={fonts}>Players name: {room.players.join(', ')}</p>
-              <SearchButton><Button onClick={() => {handleOnClick(room.roomId);}}>加入</Button></SearchButton>
+              <div className="footer">
+                <SearchButton><Button onClick={() => {handleOnClick(room.roomId);}}>加入</Button></SearchButton>
+              </div>
             </Card>
           ))}
         </div>
