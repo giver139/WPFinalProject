@@ -33,7 +33,9 @@ export async function loginApi(payload) {
       throw new Error('invalid token');
     }
     localStorage.setItem('user', data.token.slice(7));
-    sendAuthorization().catch(()=>{});
+    try {
+      await sendAuthorization();
+    } catch(error) {}
     return data; // {user: {username: string, nickname: string}, token: string}
   } catch(error) {
     if(error?.response?.status === 403) {
