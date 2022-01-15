@@ -8,6 +8,8 @@ import AllRoomspage from './AllRoomspage';
 import { createRoomApi } from '../api';
 import { RequireLoginError, InternalServerError } from '../error';
 import "./button.css"
+import Homepage from './Homepage';
+import LogoutButton from '../components/LogoutButton';
 
 const Gamepage = ({username}) => {
   const myStyle = {
@@ -20,9 +22,14 @@ const Gamepage = ({username}) => {
   const [created, setCreated] = useState(false);
   const [roomID, setRoomID] = useState(-1);
   const [host, setHost] = useState("");
+  const [logout, setLogout] = useState(false);
 
   const handleOnJoin = () => {
     setJoined(true);
+  }
+
+  const handleOnLogout = () => {
+    setLogout(true);
   }
 
   const handleOnCreate = async () => {
@@ -54,6 +61,12 @@ const Gamepage = ({username}) => {
     )
   }
 
+  else if(logout) {
+    return (
+      <Homepage></Homepage>
+    )
+  }
+
   else {
     return (
       <div className='Gamepage' style = {myStyle}>
@@ -66,6 +79,9 @@ const Gamepage = ({username}) => {
         <JoinRoom>
           <Button onClick={handleOnJoin}>加入房間</Button>
         </JoinRoom>
+        <LogoutButton>
+          <Button onClick={handleOnLogout}>登出</Button>
+        </LogoutButton>
       </div>
     )
   }

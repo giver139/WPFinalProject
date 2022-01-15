@@ -146,7 +146,7 @@ const BoardPage = ({username, player1, player2, roomID, gameId, firstPlayer}) =>
   }
 
   console.log(board);
-
+  
   if(won || tie) {
     return (
       <GameOverpage winPlayer={winPlayer} isTie={tie}></GameOverpage>

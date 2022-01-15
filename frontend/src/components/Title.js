@@ -6,7 +6,7 @@ const Title = styled.div`
     justify-content: center;
 
     h1{
-      margin: 100;
+      margin: 50;
       margin-right: 20px;
       font-size: 65px;
       font-family: 思源宋體;

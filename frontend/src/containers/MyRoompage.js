@@ -8,6 +8,7 @@ import { leaveRoomApi, startGameApi } from "../api";
 import { PlayerNumberUnmatchError, InternalServerError } from "../error";
 import { useWebsocket, ConnectionState, WebSocketState } from '../useWebsocket';
 import "./button.css"
+import Homepage from "./Homepage";
 
 const MyRoompage = ({username, roomID, host}) => {
 
