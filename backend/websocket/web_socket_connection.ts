@@ -6,6 +6,7 @@ import {GameView} from '../views/game';
 import {MoveView} from '../views/move';
 import {readToken} from '../controller/auth';
 import {isUserToken} from '../controller/user_token';
+import {RoomModel} from '../models/room';
 
 enum ConnectionState {
   INITIALIZING = 'INITIALIZING',
@@ -157,6 +158,27 @@ export class WebSocketConnection {
     const index = WebSocketConnection.connections.indexOf(this);
     if(index !== -1) {
       WebSocketConnection.connections.splice(index, 1);
+    }
+    if(this.state === ConnectionState.ROOM) {
+      try {
+        const room = await RoomModel.findOne({roomId: this.id});
+        if(!room) {
+          throw new Error('room id not found');
+        }
+        const index = room.players.indexOf(this.user);
+        if(index === -1) {
+          throw new Error('player not in the room');
+        }
+        room.players.splice(index, 1);
+        WebSocketConnection.broadcastLeaveRoom(room.roomId, this.user);
+        if(room.players.length === 0) {
+          await room.remove();
+          WebSocketConnection.broadcastCloseRoom(room.roomId);
+        }
+        else {
+          await room.save();
+        }
+      } catch(err: unknown) {}
     }
   }
 }
