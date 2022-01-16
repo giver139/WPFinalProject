@@ -4,7 +4,7 @@ import {createRoom} from '../room/create_room';
 import {joinRoom} from '../room/join_room';
 import {getRooms} from '../room/get_rooms';
 import {leaveRoom} from '../room/leave_room';
-import {RoomNotFoundError, UserNotInRoomError, UserAlreadyInRoomError} from '../room/error';
+import {RoomNotFoundError, UserNotInRoomError, UserAlreadyInRoomError, RoomIsFullError} from '../room/error';
 import {isInteger} from '../utils';
 
 export function hasRoomId(data: unknown): data is {roomId: number} {
@@ -37,6 +37,9 @@ export async function enterRoom(req: Request, res: Response): Promise<void> {
     }
     else if(err instanceof UserAlreadyInRoomError) {
       res.status(403).json({error: 'user already in the room'});
+    }
+    else if(err instanceof RoomIsFullError) {
+      res.status(403).json({error: 'the room is full'});
     }
     else {
       res.status(500).json({error: 'join room error'});

@@ -1,6 +1,6 @@
 import {RoomView} from '../views/room';
 import {Room, RoomModel} from '../models/room';
-import {RoomNotFoundError, UserAlreadyInRoomError} from './error';
+import {RoomNotFoundError, UserAlreadyInRoomError, RoomIsFullError} from './error';
 import {WebSocketConnection} from '../websocket/web_socket_connection';
 
 export async function joinRoom(username: string, roomId: number): Promise<RoomView> {
@@ -13,6 +13,9 @@ export async function joinRoom(username: string, roomId: number): Promise<RoomVi
   const index = room.players.indexOf(username);
   if(index !== -1) {
     throw new UserAlreadyInRoomError;
+  }
+  if(room.players.length === 2) {
+    throw new RoomIsFullError;
   }
   room.players.push(username);
   await room.save();

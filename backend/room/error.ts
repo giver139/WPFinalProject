@@ -24,3 +24,13 @@ export class UserAlreadyInRoomError extends Error {
     Object.setPrototypeOf(this, UserAlreadyInRoomError.prototype);
   }
 }
+
+export class RoomIsFullError extends Error {
+  name: string;
+  constructor() {
+    super('room is full');
+    this.name = 'RoomIsFullError';
+    Object.setPrototypeOf(this, RoomIsFullError.prototype);
+  }
+}
+
