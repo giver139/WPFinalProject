@@ -6,7 +6,7 @@ import ConfirmButton from '../components/ConfirmButton';
 import {joinRoomApi, listRoomsApi} from '../api'
 import Gamepage from "./Gamepage";
 import SearchButton from "../components/SearchButton";
-import { RequireLoginError , InternalServerError, RoomIdNotFoundError } from "../error";
+import { RequireLoginError , InternalServerError, RoomIdNotFoundError, RoomIsFullError, UserAlreadyInTheRoomError } from "../error";
 import MyRoompage from "./MyRoompage";
 import { Card } from "antd";
 import { useWebsocket, ConnectionState, WebSocketState } from '../useWebsocket';
@@ -70,6 +70,12 @@ const AllRoomspage = ({username}) => {
 
       else if(error instanceof RoomIdNotFoundError) {
         alert("RoomId Not Found!!!");
+      }
+      else if(error instanceof UserAlreadyInTheRoomError) {
+        alert("You are already in the room!!!");
+      }
+      else if(error instanceof RoomIsFullError) {
+        alert("The room is already full!!!");
       }
     }
   }

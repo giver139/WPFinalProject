@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {InternalServerError, RequireLoginError, InvalidPayloadError, UnknownError, IncorrectUsernameOrPasswordError, UsernameAlreadyExistsError, RoomIdNotFoundError, UserAlreadyInTheRoomError, UserNotInTheRoomError, PlayerNumberUnmatchError, InvalidParametersError, UserNotInTheGameError, InvalidSourceSelectionError, NoPossibleDestinationError, InvalidDestinationSelectionError, NotYourTurnError} from './error';
+import {InternalServerError, RequireLoginError, InvalidPayloadError, UnknownError, IncorrectUsernameOrPasswordError, UsernameAlreadyExistsError, RoomIdNotFoundError, UserAlreadyInTheRoomError, RoomIsFullError, UserNotInTheRoomError, PlayerNumberUnmatchError, InvalidParametersError, UserNotInTheGameError, InvalidSourceSelectionError, NoPossibleDestinationError, InvalidDestinationSelectionError, NotYourTurnError} from './error';
 import {sendAuthorization} from './useWebsocket';
 
 const api = axios.create({
@@ -102,6 +102,9 @@ export async function joinRoomApi(roomId) {
       }
       else if(data === 'user already in the room') {
         throw new UserAlreadyInTheRoomError;
+      }
+      else if(data === 'the room is full') {
+        throw new RoomIsFullError;
       }
       else {
         throw new UnknownError;

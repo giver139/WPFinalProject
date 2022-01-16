@@ -62,6 +62,14 @@ export class UserAlreadyInTheRoomError extends Error {
   }
 }
 
+export class RoomIsFullError extends Error {
+  constructor() {
+    super('the room is full error');
+    this.name = 'RoomIsFullError';
+    Object.setPrototypeOf(this, RoomIsFullError.prototype);
+  }
+}
+
 export class UserNotInTheRoomError extends Error {
   constructor() {
     super('user is not in the room error');
