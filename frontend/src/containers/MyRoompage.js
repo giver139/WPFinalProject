@@ -96,8 +96,12 @@ const MyRoompage = ({username, roomID, host, roomInfo}) => {
           <h1>{host}的房間</h1>
         </Title>
         <Title>
-          <h2>Room ID: {roomID}</h2>
-          <h2>Room Players: {roomPlayers.join(', ')}</h2>
+          <div>
+            <h2>Room ID: {roomID}</h2>
+          </div>
+          <div>
+            <h2>Room Players: {roomPlayers.join(', ')}</h2>
+          </div>
         </Title>
         <ConfirmButton>
           <Button onClick={handleOnStart}>開始遊戲</Button>
