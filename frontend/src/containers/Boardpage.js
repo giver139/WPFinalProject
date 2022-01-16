@@ -46,14 +46,6 @@ const BoardPage = ({username, player1, player2, roomID, gameId, firstPlayer}) =>
     justifyContent: 'center',
   }
 
-  function SelectThis(thisElement) {
-    thisElement.classList.add("selected");
-  }
-
-  function UnSelectThis(thisElement) {
-    thisElement.classList.remove("selected");
-  }
-
   const [board, setBoard] = useState(new Array(32).fill(14));
   const [firstClicked, setFirstClicked] = useState(false);
   const [nowPlayer, setNowPlayer] = useState(firstPlayer);
@@ -62,6 +54,21 @@ const BoardPage = ({username, player1, player2, roomID, gameId, firstPlayer}) =>
   const [won, setWon] = useState(false);
   const [tie, setTie] = useState(false);
   const [winPlayer, setWinPlayer] = useState("")
+  const [currentElement, setCurrentElement] = useState(null);
+
+  const UnSelectThis = (thisElement) => {
+    thisElement.classList.remove("selected");
+    setCurrentElement(null);
+  };
+
+  const SelectThis = (thisElement) => {
+    if(currentElement) {
+      UnSelectThis(currentElement);
+    }
+    thisElement.classList.add("selected");
+    setCurrentElement(thisElement);
+  };
+
 
   const handleMakeMove = (game, move) => {
     setBoard(game.board)
@@ -117,6 +124,9 @@ const BoardPage = ({username, player1, player2, roomID, gameId, firstPlayer}) =>
     } catch(error) {
       if(error instanceof InvalidDestinationSelectionError) {
         alert('Not a valid Destination!!!');
+        setFirstClicked(false);
+        setSource(-1);
+        UnSelectThis(currentElement);
       }
 
       else if(error instanceof InvalidSourceSelectionError) {
