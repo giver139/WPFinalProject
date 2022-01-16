@@ -72,7 +72,6 @@ const BoardPage = ({username, player1, player2, roomID, gameId, firstPlayer}) =>
 
   const handleMakeMove = (game, move) => {
     setBoard(game.board)
-    console.log('here, game = ', game)
     setNowPlayer(game.players[game.currentPlayer])
     if (game.players[game.blackPlayer] === player1) {
       setPlayer1Color(bk);
@@ -85,7 +84,6 @@ const BoardPage = ({username, player1, player2, roomID, gameId, firstPlayer}) =>
     if (game.noFlipEatCount >= 60) {
       setTie(true);
     }
-    console.log(game);
     if (game.winPlayer !== -1) {
       setWon(true);
       if (game.players[game.winPlayer] === player1) {
@@ -107,16 +105,13 @@ const BoardPage = ({username, player1, player2, roomID, gameId, firstPlayer}) =>
   const handleOnClick = async (index, event) => {
     try {
       if(!firstClicked) {
-        console.log('game = ', gameId)
         const {moves} = await firstClickApi(gameId, index);
-        console.log('first clicked!!') 
         setFirstClicked(true);
         setSource(index);
         SelectThis(event.target);
       }
       else {
         await secondClickApi(gameId, source, index);
-        console.log('second clicked!!')
         setFirstClicked(false);
         setSource(-1);
         UnSelectThis(event.target);
@@ -155,8 +150,6 @@ const BoardPage = ({username, player1, player2, roomID, gameId, firstPlayer}) =>
     margin: '3px',
   }
 
-  console.log(board);
-  
   if(won || tie) {
     return (
       <GameOverpage winPlayer={winPlayer} isTie={tie}></GameOverpage>

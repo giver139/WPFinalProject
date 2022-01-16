@@ -234,6 +234,9 @@ export async function secondClickApi(gameId, source, destination) {
       else if(data === 'invalid destination selection') {
         throw new InvalidDestinationSelectionError;
       }
+      else if(data === 'invalid flip selection') {
+        throw new InvalidDestinationSelectionError;
+      }
       else if(data === 'not your turn to move') {
         throw new NotYourTurnError;
       }

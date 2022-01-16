@@ -56,7 +56,7 @@ const Gamepage = ({username}) => {
       }
 
       else if(error instanceof RequireLoginError) {
-        console.log("Please Log In Again!!!");
+        alert("Please Log In Again!!!");
       }
     }
   }

@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import BoardPage from "./Boardpage";
 import Gamepage from "./Gamepage";
 import { leaveRoomApi, startGameApi } from "../api";
-import { PlayerNumberUnmatchError, InternalServerError } from "../error";
+import { PlayerNumberUnmatchError, InternalServerError, RequireLoginError } from "../error";
 import { useWebsocket, ConnectionState, WebSocketState } from '../useWebsocket';
 import "./button.css"
 import Homepage from "./Homepage";
@@ -62,6 +62,9 @@ const MyRoompage = ({username, roomID, host, roomInfo}) => {
       if(error instanceof PlayerNumberUnmatchError) {
         alert("Player Number is not 2!!!")
       }
+      else if(error instanceof RequireLoginError) {
+        alert("Please Log In Again!!!");
+      }
     }
   }
 
@@ -73,6 +76,9 @@ const MyRoompage = ({username, roomID, host, roomInfo}) => {
     } catch(error) {
       if(error instanceof InternalServerError) {
         console.log("Internal Server Error!!");
+      }
+      else if(error instanceof RequireLoginError) {
+        alert("Please Log In Again!!!");
       }
     } 
   }

@@ -28,7 +28,7 @@ export function makeMove(game: Game, color: Color, move: Move, username: string)
     game.noFlipEatCount = 0;
   }
   else {
-    if (board.board[move.source.index].color !== color) {
+    if (board.board[move.source.index].color !== color && board.board[move.source.index].chessNo !== ChessNo.COVERED) {
       throw new InvalidSourceSelectionError;
     }
     if (getValidDestinations(game, color, move.source).filter(_ => _.destination.index === move.destination.index).length === 0) {
