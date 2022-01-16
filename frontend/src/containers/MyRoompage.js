@@ -97,6 +97,7 @@ const MyRoompage = ({username, roomID, host, roomInfo}) => {
         </Title>
         <Title>
           <h2>Room ID: {roomID}</h2>
+          <h2>Room Players: {roomPlayers.join(', ')}</h2>
         </Title>
         <ConfirmButton>
           <Button onClick={handleOnStart}>開始遊戲</Button>
