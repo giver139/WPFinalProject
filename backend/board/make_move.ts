@@ -49,7 +49,6 @@ export function makeMove(game: Game, color: Color, move: Move, username: string)
   }
   game.board = board.toChessNoArray();
   if (checkPlayerLose(board, game.currentPlayer === game.blackPlayer ? Color.RED : Color.BLACK)) {
-    console.log('jjjjjjjjjjjj');
     game.winPlayer = game.currentPlayer;
   }
   return move;
