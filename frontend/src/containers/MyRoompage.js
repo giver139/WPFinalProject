@@ -28,6 +28,11 @@ const MyRoompage = ({username, roomID, host, roomInfo}) => {
     setRoomPlayers((oldRoomPlayers) => oldRoomPlayers.filter((name) => name !== leftUser));
   };
 
+  useEffect(() => {
+    setPlayer1(() => roomPlayers[0] ?? '');
+    setPlayer2(() => roomPlayers[1] ?? '');
+  }, [roomPlayers]);
+
   const handleStartGame = (game) => {
     setPlayer1(game.players[0])
     setPlayer2(game.players[1])
@@ -52,7 +57,7 @@ const MyRoompage = ({username, roomID, host, roomInfo}) => {
 
   const handleOnStart = async () => {
     try {
-      if(username === host) {
+      if(username === player1) {
         const {game} = await startGameApi(roomID);
       }
       else {
@@ -99,7 +104,7 @@ const MyRoompage = ({username, roomID, host, roomInfo}) => {
     return (
       <div className="roomspage" style={myStyle}>
         <Title>
-          <h1>{host}的房間</h1>
+          <h1>{player1}的房間</h1>
         </Title>
         <Title>
           <h2>Room ID: {roomID}</h2>
